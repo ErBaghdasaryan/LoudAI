@@ -1,0 +1,683 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CC6D89302D887F58005B2A0F /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D892F2D887F58005B2A0F /* SQLite */; };
+		CC6D89332D887F6E005B2A0F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D89322D887F6E005B2A0F /* SnapKit */; };
+		CC6D89382D887F7B005B2A0F /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D89372D887F7B005B2A0F /* Swinject */; };
+		CC6D893D2D887F87005B2A0F /* SwinjectAutoregistration in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D893C2D887F87005B2A0F /* SwinjectAutoregistration */; };
+		CC6D896F2D88837A005B2A0F /* LoudAIModel in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D896E2D88837A005B2A0F /* LoudAIModel */; };
+		CC6D89712D88837A005B2A0F /* LoudAIViewModel in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D89702D88837A005B2A0F /* LoudAIViewModel */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CC6D890F2D887C11005B2A0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC6D88F02D887C0F005B2A0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC6D88F72D887C0F005B2A0F;
+			remoteInfo = LoudAI;
+		};
+		CC6D89192D887C11005B2A0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC6D88F02D887C0F005B2A0F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC6D88F72D887C0F005B2A0F;
+			remoteInfo = LoudAI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CC6D88F82D887C0F005B2A0F /* LoudAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoudAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC6D890E2D887C11005B2A0F /* LoudAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoudAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC6D89182D887C11005B2A0F /* LoudAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoudAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC6D892C2D887D2F005B2A0F /* LoudAIViewModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoudAIViewModel; sourceTree = "<group>"; };
+		CC6D892D2D887D41005B2A0F /* LoudAIModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoudAIModel; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CC6D89202D887C11005B2A0F /* Exceptions for "LoudAI" folder in "LoudAI" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CC6D88F72D887C0F005B2A0F /* LoudAI */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CC6D88FA2D887C0F005B2A0F /* LoudAI */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CC6D89202D887C11005B2A0F /* Exceptions for "LoudAI" folder in "LoudAI" target */,
+			);
+			path = LoudAI;
+			sourceTree = "<group>";
+		};
+		CC6D89112D887C11005B2A0F /* LoudAITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LoudAITests;
+			sourceTree = "<group>";
+		};
+		CC6D891B2D887C11005B2A0F /* LoudAIUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = LoudAIUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CC6D88F52D887C0F005B2A0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC6D89302D887F58005B2A0F /* SQLite in Frameworks */,
+				CC6D89332D887F6E005B2A0F /* SnapKit in Frameworks */,
+				CC6D89382D887F7B005B2A0F /* Swinject in Frameworks */,
+				CC6D896F2D88837A005B2A0F /* LoudAIModel in Frameworks */,
+				CC6D893D2D887F87005B2A0F /* SwinjectAutoregistration in Frameworks */,
+				CC6D89712D88837A005B2A0F /* LoudAIViewModel in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC6D890B2D887C11005B2A0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC6D89152D887C11005B2A0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CC6D88EF2D887C0F005B2A0F = {
+			isa = PBXGroup;
+			children = (
+				CC6D892D2D887D41005B2A0F /* LoudAIModel */,
+				CC6D892C2D887D2F005B2A0F /* LoudAIViewModel */,
+				CC6D88FA2D887C0F005B2A0F /* LoudAI */,
+				CC6D89112D887C11005B2A0F /* LoudAITests */,
+				CC6D891B2D887C11005B2A0F /* LoudAIUITests */,
+				CC6D896D2D88837A005B2A0F /* Frameworks */,
+				CC6D88F92D887C0F005B2A0F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC6D88F92D887C0F005B2A0F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC6D88F82D887C0F005B2A0F /* LoudAI.app */,
+				CC6D890E2D887C11005B2A0F /* LoudAITests.xctest */,
+				CC6D89182D887C11005B2A0F /* LoudAIUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CC6D896D2D88837A005B2A0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CC6D88F72D887C0F005B2A0F /* LoudAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC6D89212D887C11005B2A0F /* Build configuration list for PBXNativeTarget "LoudAI" */;
+			buildPhases = (
+				CC6D88F42D887C0F005B2A0F /* Sources */,
+				CC6D88F52D887C0F005B2A0F /* Frameworks */,
+				CC6D88F62D887C0F005B2A0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CC6D88FA2D887C0F005B2A0F /* LoudAI */,
+			);
+			name = LoudAI;
+			packageProductDependencies = (
+				CC6D892F2D887F58005B2A0F /* SQLite */,
+				CC6D89322D887F6E005B2A0F /* SnapKit */,
+				CC6D89372D887F7B005B2A0F /* Swinject */,
+				CC6D893C2D887F87005B2A0F /* SwinjectAutoregistration */,
+				CC6D896E2D88837A005B2A0F /* LoudAIModel */,
+				CC6D89702D88837A005B2A0F /* LoudAIViewModel */,
+			);
+			productName = LoudAI;
+			productReference = CC6D88F82D887C0F005B2A0F /* LoudAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CC6D890D2D887C11005B2A0F /* LoudAITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC6D89262D887C11005B2A0F /* Build configuration list for PBXNativeTarget "LoudAITests" */;
+			buildPhases = (
+				CC6D890A2D887C11005B2A0F /* Sources */,
+				CC6D890B2D887C11005B2A0F /* Frameworks */,
+				CC6D890C2D887C11005B2A0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC6D89102D887C11005B2A0F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CC6D89112D887C11005B2A0F /* LoudAITests */,
+			);
+			name = LoudAITests;
+			packageProductDependencies = (
+			);
+			productName = LoudAITests;
+			productReference = CC6D890E2D887C11005B2A0F /* LoudAITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CC6D89172D887C11005B2A0F /* LoudAIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC6D89292D887C11005B2A0F /* Build configuration list for PBXNativeTarget "LoudAIUITests" */;
+			buildPhases = (
+				CC6D89142D887C11005B2A0F /* Sources */,
+				CC6D89152D887C11005B2A0F /* Frameworks */,
+				CC6D89162D887C11005B2A0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC6D891A2D887C11005B2A0F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CC6D891B2D887C11005B2A0F /* LoudAIUITests */,
+			);
+			name = LoudAIUITests;
+			packageProductDependencies = (
+			);
+			productName = LoudAIUITests;
+			productReference = CC6D89182D887C11005B2A0F /* LoudAIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CC6D88F02D887C0F005B2A0F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					CC6D88F72D887C0F005B2A0F = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					CC6D890D2D887C11005B2A0F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = CC6D88F72D887C0F005B2A0F;
+					};
+					CC6D89172D887C11005B2A0F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = CC6D88F72D887C0F005B2A0F;
+					};
+				};
+			};
+			buildConfigurationList = CC6D88F32D887C0F005B2A0F /* Build configuration list for PBXProject "LoudAI" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CC6D88EF2D887C0F005B2A0F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CC6D892E2D887F58005B2A0F /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+				CC6D89312D887F6E005B2A0F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CC6D89362D887F7B005B2A0F /* XCRemoteSwiftPackageReference "Swinject" */,
+				CC6D893B2D887F87005B2A0F /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CC6D88F92D887C0F005B2A0F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CC6D88F72D887C0F005B2A0F /* LoudAI */,
+				CC6D890D2D887C11005B2A0F /* LoudAITests */,
+				CC6D89172D887C11005B2A0F /* LoudAIUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CC6D88F62D887C0F005B2A0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC6D890C2D887C11005B2A0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC6D89162D887C11005B2A0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CC6D88F42D887C0F005B2A0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC6D890A2D887C11005B2A0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC6D89142D887C11005B2A0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CC6D89102D887C11005B2A0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC6D88F72D887C0F005B2A0F /* LoudAI */;
+			targetProxy = CC6D890F2D887C11005B2A0F /* PBXContainerItemProxy */;
+		};
+		CC6D891A2D887C11005B2A0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC6D88F72D887C0F005B2A0F /* LoudAI */;
+			targetProxy = CC6D89192D887C11005B2A0F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		CC6D89222D887C11005B2A0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LoudAI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Loud AI";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = q.LoudAI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CC6D89232D887C11005B2A0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LoudAI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Loud AI";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = q.LoudAI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CC6D89242D887C11005B2A0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CC6D89252D887C11005B2A0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CC6D89272D887C11005B2A0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = q.LoudAITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoudAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LoudAI";
+			};
+			name = Debug;
+		};
+		CC6D89282D887C11005B2A0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = q.LoudAITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoudAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LoudAI";
+			};
+			name = Release;
+		};
+		CC6D892A2D887C11005B2A0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = q.LoudAIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LoudAI;
+			};
+			name = Debug;
+		};
+		CC6D892B2D887C11005B2A0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = q.LoudAIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LoudAI;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CC6D88F32D887C0F005B2A0F /* Build configuration list for PBXProject "LoudAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC6D89242D887C11005B2A0F /* Debug */,
+				CC6D89252D887C11005B2A0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC6D89212D887C11005B2A0F /* Build configuration list for PBXNativeTarget "LoudAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC6D89222D887C11005B2A0F /* Debug */,
+				CC6D89232D887C11005B2A0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC6D89262D887C11005B2A0F /* Build configuration list for PBXNativeTarget "LoudAITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC6D89272D887C11005B2A0F /* Debug */,
+				CC6D89282D887C11005B2A0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC6D89292D887C11005B2A0F /* Build configuration list for PBXNativeTarget "LoudAIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC6D892A2D887C11005B2A0F /* Debug */,
+				CC6D892B2D887C11005B2A0F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CC6D892E2D887F58005B2A0F /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.3;
+			};
+		};
+		CC6D89312D887F6E005B2A0F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		CC6D89362D887F7B005B2A0F /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+		CC6D893B2D887F87005B2A0F /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/SwinjectAutoregistration.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CC6D892F2D887F58005B2A0F /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC6D892E2D887F58005B2A0F /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+		CC6D89322D887F6E005B2A0F /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC6D89312D887F6E005B2A0F /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CC6D89372D887F7B005B2A0F /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC6D89362D887F7B005B2A0F /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		CC6D893C2D887F87005B2A0F /* SwinjectAutoregistration */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC6D893B2D887F87005B2A0F /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */;
+			productName = SwinjectAutoregistration;
+		};
+		CC6D896E2D88837A005B2A0F /* LoudAIModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LoudAIModel;
+		};
+		CC6D89702D88837A005B2A0F /* LoudAIViewModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LoudAIViewModel;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CC6D88F02D887C0F005B2A0F /* Project object */;
+}
