@@ -26,8 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func setSceneView() {
         if appStorageService.hasData(for: .skipOnboarding) {
             if appStorageService.hasData(for: .isEnabled) {
-                startNotificationFlow()
-                //Tabbar
+                startTabBarFlow()
             } else {
                 startNotificationFlow()
             }
@@ -73,8 +72,8 @@ extension SceneDelegate {
     }
 
     func startTabBarFlow() {
-//        let tabBarViewController = ViewControllerFactory.makeTabBarViewController()
-//        startTabFlow(for: tabBarViewController)
+        let tabBarViewController = ViewControllerFactory.makeTabBarViewController()
+        startTabFlow(for: tabBarViewController)
     }
 
     func startFlow(for viewController: UIViewController) {
