@@ -9,14 +9,21 @@ import Foundation
 import LoudAIModel
 
 public protocol IHistoryViewModel {
-
+    var savedMusics: [SavedMusicModel] { get set }
+    func loadMusics()
 }
 
 public class HistoryViewModel: IHistoryViewModel {
 
     private let historyService: IHistoryService
 
+    public var savedMusics: [SavedMusicModel] = []
+
     public init(historyService: IHistoryService) {
         self.historyService = historyService
+    }
+
+    public func loadMusics() {
+//        self.savedItems = historyService.loadSavedItems()
     }
 }

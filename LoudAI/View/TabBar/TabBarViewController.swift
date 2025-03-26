@@ -31,6 +31,8 @@ class TabBarViewController: UITabBarController {
         generatorViewController.delegate = self
         historyViewController.delegate = self
         settingsViewController.delegate = self
+
+        NotificationCenter.default.addObserver(self, selector: #selector(setPageToFirst), name: Notification.Name("SetPageToGenerate"), object: nil)
     }
 
     private func createNavigation(title: String, image: String, vc: UIViewController) -> UINavigationController {
@@ -66,10 +68,15 @@ class TabBarViewController: UITabBarController {
         return navigation
     }
 
+    @objc func setPageToFirst() {
+        self.selectedIndex = 0
+    }
+
     // MARK: - Deinit
     deinit {
         #if DEBUG
         print("deinit \(String(describing: self))")
+        NotificationCenter.default.removeObserver(self) 
         #endif
     }
 }

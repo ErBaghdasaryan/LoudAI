@@ -13,6 +13,10 @@ import StoreKit
 class GeneratorViewController: BaseViewController {
 
     var viewModel: ViewModel?
+    private let segmentControl = UISegmentedControl(items: ["Generator",
+                                                    "Text to Music"])
+    private let promtView = CustomTextView(placeholder: "Epic score that feels like the beginning of an epic saga.")
+    private let add = UIButton(type: .system)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +28,30 @@ class GeneratorViewController: BaseViewController {
 
         self.view.backgroundColor = .black
 
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.backgroundColor = UIColor(hex: "#1E1E1E")?.withAlphaComponent(0.7)
+        segmentControl.selectedSegmentTintColor = UIColor(hex: "#4C19DE")
+        segmentControl.setTitleTextAttributes([.foregroundColor: UIColor.white.withAlphaComponent(0.7)], for: .normal)
+        segmentControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
+
+        self.promtView.isHidden = true
+        self.add.isHidden = true
+
+        add.setTitle("Generate", for: .normal)
+        add.setTitleColor(UIColor.white, for: .normal)
+        add.titleLabel?.font = UIFont(name: "SFProText-Regular", size: 15)
+        add.setImage(UIImage(named: "addSong"), for: .normal)
+        add.tintColor = UIColor.white
+        add.imageEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 8)
+        add.titleEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 16)
+        add.backgroundColor = UIColor(hex: "#4C19DE")
+        add.layer.masksToBounds = true
+        add.layer.cornerRadius = 16
+
+        self.view.addSubview(segmentControl)
+        self.view.addSubview(promtView)
+        self.view.addSubview(add)
         setupConstraints()
         setupNavigationItems()
     }
@@ -33,7 +61,26 @@ class GeneratorViewController: BaseViewController {
     }
 
     func setupConstraints() {
+        segmentControl.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(120)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(42)
+        }
 
+        promtView.snp.makeConstraints { view in
+            view.top.equalTo(segmentControl.snp.bottom).offset(16)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.bottom.equalToSuperview().inset(490)
+        }
+
+        add.snp.makeConstraints { view in
+            view.top.equalTo(promtView.snp.bottom).offset(24)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(40)
+        }
     }
 
 }
@@ -42,7 +89,19 @@ class GeneratorViewController: BaseViewController {
 extension GeneratorViewController {
     
     private func makeButtonsAction() {
+        segmentControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+    }
 
+    @objc func segmentChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            print("Segment1")
+        case 1:
+            self.promtView.isHidden = false
+            self.add.isHidden = false
+        default:
+            break
+        }
     }
 
     private func setupNavigationItems() {

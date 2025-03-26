@@ -13,10 +13,17 @@ import StoreKit
 class HistoryViewController: BaseViewController {
 
     var viewModel: ViewModel?
+    var collectionView: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.viewModel?.loadMusics()
+        self.collectionView.reloadData()
     }
 
     override func setupUI() {
@@ -24,6 +31,25 @@ class HistoryViewController: BaseViewController {
 
         self.view.backgroundColor = .black
 
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 343, height: 122)
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = 16
+
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+
+        collectionView.register(MusicCollectionViewCell.self)
+        collectionView.register(EmptyCollectionViewCelll.self)
+        collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = true
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
+        self.view.addSubview(collectionView)
         setupConstraints()
         setupNavigationItems()
     }
@@ -33,7 +59,12 @@ class HistoryViewController: BaseViewController {
     }
 
     func setupConstraints() {
-
+        collectionView.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(170)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.bottom.equalToSuperview()
+        }
     }
 
 }
@@ -43,6 +74,10 @@ extension HistoryViewController {
     
     private func makeButtonsAction() {
 
+    }
+
+    private func setPageToGenerate() {
+        NotificationCenter.default.post(name: Notification.Name("SetPageToGenerate"), object: nil, userInfo: nil)
     }
 
     private func setupNavigationItems() {
@@ -76,6 +111,48 @@ extension HistoryViewController {
 
 extension HistoryViewController: IViewModelableController {
     typealias ViewModel = IHistoryViewModel
+}
+
+//MARK: Collection view delegate
+extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.viewModel?.savedMusics.isEmpty ?? true ? 1 : self.viewModel!.savedMusics.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if self.viewModel?.savedMusics.isEmpty ?? true {
+
+            let cell: EmptyCollectionViewCelll = collectionView.dequeueReusableCell(for: indexPath)
+
+            cell.addSubject.sink { [weak self] _ in
+                self?.setPageToGenerate()
+            }.store(in: &cell.cancellables)
+
+            return cell
+        } else {
+            let cell: MusicCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
+//            if let model = self.viewModel?.savedItems[indexPath.row] {
+//                cell.configure(with: model)
+//            }
+            return cell
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let navigationController = self.navigationController else { return }
+        if let model = self.viewModel?.savedMusics[indexPath.row] {
+//            HistoryRouter.showEditPhotoViewController(in: navigationController,
+//                                                      navigationModel: .init(image: model.image))
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if self.viewModel?.savedMusics.isEmpty ?? true {
+            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        } else {
+            return CGSize(width: 343, height: 122)
+        }
+    }
 }
 
 //MARK: Preview
