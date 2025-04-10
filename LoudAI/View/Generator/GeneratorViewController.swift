@@ -7,6 +7,7 @@
 
 import UIKit
 import LoudAIViewModel
+import LoudAIModel
 import SnapKit
 import StoreKit
 
@@ -17,6 +18,12 @@ class GeneratorViewController: BaseViewController {
                                                     "Text to Music"])
     private let promtView = CustomTextView(placeholder: "Epic score that feels like the beginning of an epic saga.")
     private let add = UIButton(type: .system)
+    var collectionView: UICollectionView!
+    private var selectedCells: [CellType] = []
+    private let allCells: [CellType] = [.genre, .subGenre, .duration, .instruments, .genreBlends, .energy, .structure, .tempo, .key, .add]
+    private var isFirstTime: Bool = true
+
+    private var currentSubgenreIndex: Int = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +42,6 @@ class GeneratorViewController: BaseViewController {
         segmentControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
 
-        self.promtView.isHidden = true
-        self.add.isHidden = true
-
         add.setTitle("Generate", for: .normal)
         add.setTitleColor(UIColor.white, for: .normal)
         add.titleLabel?.font = UIFont(name: "SFProText-Regular", size: 15)
@@ -49,18 +53,62 @@ class GeneratorViewController: BaseViewController {
         add.layer.masksToBounds = true
         add.layer.cornerRadius = 16
 
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = 16
+
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.isScrollEnabled = true
+        collectionView.backgroundColor = .clear
+        collectionView.register(GenreCell.self)
+        collectionView.register(SubGenreCell.self)
+        collectionView.register(DurationCell.self)
+        collectionView.register(InstrumentsCell.self)
+        collectionView.register(GenreBlendsCell.self)
+        collectionView.register(EnergyCell.self)
+        collectionView.register(StructureCell.self)
+        collectionView.register(TempoCell.self)
+        collectionView.register(KeyCell.self)
+        collectionView.register(AddCell.self)
+
+        self.segmentControl.selectedSegmentIndex = 0
+
         self.view.addSubview(segmentControl)
-        self.view.addSubview(promtView)
-        self.view.addSubview(add)
+        self.view.addSubview(collectionView)
         setupConstraints()
         setupNavigationItems()
     }
 
     override func setupViewModel() {
         super.setupViewModel()
+
+        self.viewModel?.loadGenres()
+
+        self.viewModel?.createByPromptSuccessSubject.sink { success in
+            if success {
+//                guard let jobID = self.viewModel?.requestResponse?.data.jobID else { return }
+
+                DispatchQueue.main.async {
+//                    self.activityIndicator.startAnimating()
+                    self.view.isUserInteractionEnabled = false
+                }
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//                    self.viewModel?.fetchGenerationStatus(userId: userID, jobId: jobID)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.showBadAlert(message: "Write the text that you want to generate, without which it is impossible to continue.")
+                }
+            }
+        }.store(in: &cancellables)
     }
 
     func setupConstraints() {
+
         segmentControl.snp.makeConstraints { view in
             view.top.equalToSuperview().offset(120)
             view.leading.equalToSuperview().offset(16)
@@ -68,18 +116,11 @@ class GeneratorViewController: BaseViewController {
             view.height.equalTo(42)
         }
 
-        promtView.snp.makeConstraints { view in
+        collectionView.snp.makeConstraints { view in
             view.top.equalTo(segmentControl.snp.bottom).offset(16)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
-            view.bottom.equalToSuperview().inset(490)
-        }
-
-        add.snp.makeConstraints { view in
-            view.top.equalTo(promtView.snp.bottom).offset(24)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(40)
+            view.bottom.equalToSuperview()
         }
     }
 
@@ -90,15 +131,29 @@ extension GeneratorViewController {
     
     private func makeButtonsAction() {
         segmentControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        self.add.addTarget(self, action: #selector(byPromptTapped), for: .touchUpInside)
+    }
+
+    @objc func byPromptTapped() {
+        guard let prompt = self.promtView.text else {
+            self.showBadAlert(message: "Write the text that you want to generate, without which it is impossible to continue.")
+            return
+        }
+
+        let bundle = "kabjsdfa-a12"
+        let appId = "4cf2e553-c8ad-4331-8ed0-0762aacd09c8"
+
+        self.viewModel?.createByPromptRequest(userId: appId,
+                                              bundle: bundle,
+                                              prompt: prompt)
     }
 
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            print("Segment1")
+            self.isPromtMode(false)
         case 1:
-            self.promtView.isHidden = false
-            self.add.isHidden = false
+            self.isPromtMode(true)
         default:
             break
         }
@@ -131,10 +186,199 @@ extension GeneratorViewController {
             SettingsRouter.showPaymentViewController(in: navigationController)
 //        }
     }
+
+    private func isPromtMode(_ bool: Bool) {
+        if bool {
+            self.collectionView.removeFromSuperview()
+            self.view.addSubview(promtView)
+            self.view.addSubview(add)
+
+            promtView.snp.makeConstraints { view in
+                view.top.equalTo(segmentControl.snp.bottom).offset(16)
+                view.leading.equalToSuperview().offset(16)
+                view.trailing.equalToSuperview().inset(16)
+                view.bottom.equalToSuperview().inset(490)
+            }
+
+            add.snp.makeConstraints { view in
+                view.top.equalTo(promtView.snp.bottom).offset(24)
+                view.leading.equalToSuperview().offset(16)
+                view.trailing.equalToSuperview().inset(16)
+                view.height.equalTo(40)
+            }
+
+            self.isFirstTime = false
+        } else {
+            if !isFirstTime {
+                self.promtView.removeFromSuperview()
+                self.add.removeFromSuperview()
+            }
+            self.view.addSubview(collectionView)
+
+            collectionView.snp.makeConstraints { view in
+                view.top.equalTo(segmentControl.snp.bottom).offset(16)
+                view.leading.equalToSuperview().offset(16)
+                view.trailing.equalToSuperview().inset(16)
+                view.bottom.equalToSuperview()
+            }
+        }
+    }
+
+    private func dequeueCell(for type: CellType, indexPath: IndexPath, collectionView: UICollectionView) -> UICollectionViewCell {
+        switch type {
+        case .subGenre:
+            let cell: SubGenreCell = collectionView.dequeueReusableCell(for: indexPath)
+
+            if let models = self.viewModel?.genreItems {
+                cell.configure(with: models[currentSubgenreIndex].subGenres)
+            }
+
+            return cell
+        case .duration:
+            let cell: DurationCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .instruments:
+            let cell: InstrumentsCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .genreBlends:
+            let cell: GenreBlendsCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .energy:
+            let cell: EnergyCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .structure:
+            let cell: StructureCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .tempo:
+            let cell: TempoCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .key:
+            let cell: KeyCell = collectionView.dequeueReusableCell(for: indexPath)
+            cell.configure(with: "Aaa",
+                           and: UIImage(named: "genreImage")!)
+            return cell
+        case .genre:
+            break
+        case .add:
+            break
+        }
+        return UICollectionViewCell()
+    }
+
+    private func addCell(from index: Int) {
+        let cellToAdd: CellType
+
+        switch index {
+        case 1: cellToAdd = .subGenre
+        case 2: cellToAdd = .duration
+        case 3: cellToAdd = .instruments
+        case 4: cellToAdd = .genreBlends
+        case 5: cellToAdd = .energy
+        case 6: cellToAdd = .structure
+        case 7: cellToAdd = .tempo
+        case 8: cellToAdd = .key
+        default: return
+        }
+
+        guard !self.selectedCells.contains(cellToAdd) else { return }
+
+        self.selectedCells.append(cellToAdd)
+        self.collectionView.reloadData()
+    }
 }
 
 extension GeneratorViewController: IViewModelableController {
     typealias ViewModel = IGeneratorViewModel
+}
+
+extension GeneratorViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.selectedCells.count + 2
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.item == 0 {
+            let cell: GenreCell = collectionView.dequeueReusableCell(for: indexPath)
+
+            if let models = self.viewModel?.genreItems {
+                cell.configure(with: models)
+            }
+
+            cell.indexSubject.sink { [weak self] index in
+                guard let self = self else { return }
+
+                self.currentSubgenreIndex = index
+                self.addCell(from: 1)
+
+                self.collectionView.reloadData()
+
+            }.store(in: &cell.cancellables)
+
+            return cell
+        } else if indexPath.item == selectedCells.count + 1 {
+            let cell: AddCell = collectionView.dequeueReusableCell(for: indexPath)
+
+            cell.indexSubject.sink { [weak self] index in
+                guard let self = self else { return }
+                self.addCell(from: index)
+            }.store(in: &cell.cancellables)
+
+            return cell
+        } else {
+            let cellType = selectedCells[indexPath.item - 1]
+            return dequeueCell(for: cellType, indexPath: indexPath, collectionView: collectionView)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width
+
+            if indexPath.item == 0 {
+                return CGSize(width: width, height: 122)
+            } else if indexPath.item == selectedCells.count + 1 {
+                return CGSize(width: width, height: 80)
+            } else {
+                let cellType = selectedCells[indexPath.item - 1]
+
+                switch cellType {
+                case .subGenre:
+                    return CGSize(width: width, height: 98)
+                case .duration:
+                    return CGSize(width: width, height: 98)
+                case .instruments:
+                    return CGSize(width: width, height: 440)
+                case .genreBlends:
+                    return CGSize(width: width, height: 144)
+                case .energy:
+                    return CGSize(width: width, height: 82)
+                case .structure:
+                    return CGSize(width: width, height: 390)
+                case .tempo:
+                    return CGSize(width: width, height: 110)
+                case .key:
+                    return CGSize(width: width, height: 172)
+                default:
+                    return CGSize(width: width, height: 80)
+                }
+            }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
 }
 
 //MARK: Preview
@@ -156,4 +400,17 @@ struct GeneratorViewControllerProvider: PreviewProvider {
         func updateUIViewController(_ uiViewController: GeneratorViewControllerProvider.ContainerView.UIViewControllerType, context: UIViewControllerRepresentableContext<GeneratorViewControllerProvider.ContainerView>) {
         }
     }
+}
+
+enum CellType: Equatable {
+    case genre,
+         subGenre,
+         duration,
+         instruments,
+         genreBlends,
+         energy,
+         structure,
+         tempo,
+         key,
+         add
 }
