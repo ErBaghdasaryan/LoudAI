@@ -276,8 +276,11 @@ extension GeneratorViewController {
             return cell
         case .instruments:
             let cell: InstrumentsCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .genreBlends:
             let cell: GenreBlendsCell = collectionView.dequeueReusableCell(for: indexPath)

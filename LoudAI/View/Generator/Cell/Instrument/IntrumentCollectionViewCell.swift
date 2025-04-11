@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import LoudAIModel
 
+
 class IntrumentCollectionViewCell: UICollectionViewCell, IReusableView {
 
     private let image = UIImageView()
