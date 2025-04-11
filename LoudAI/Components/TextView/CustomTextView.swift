@@ -48,8 +48,8 @@ public class CustomTextView: UITextView, UITextViewDelegate {
         addSubview(characterCountLabel)
 
         characterCountLabel.snp.makeConstraints { view in
-            view.bottom.equalTo(self.snp.bottom).inset(8)
-            view.trailing.equalTo(self.snp.trailing).inset(8)
+            view.bottom.equalToSuperview().inset(8)
+            view.trailing.equalToSuperview().inset(8)
         }
 
         placeholderLabel.isHidden = !text.isEmpty

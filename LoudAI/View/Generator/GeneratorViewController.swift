@@ -16,7 +16,7 @@ class GeneratorViewController: BaseViewController {
     var viewModel: ViewModel?
     private let segmentControl = UISegmentedControl(items: ["Generator",
                                                     "Text to Music"])
-    private let promtView = CustomTextView(placeholder: "Epic score that feels like the beginning of an epic saga.")
+    private let promtView = TextViewWithCounter(placeholder: "Epic score that feels like the beginning of an epic saga.")
     private let generate = UIButton(type: .system)
     private let add = UIButton(type: .system)
     var collectionView: UICollectionView!
@@ -102,14 +102,13 @@ class GeneratorViewController: BaseViewController {
 
         self.viewModel?.createByPromptSuccessSubject.sink { success in
             if success {
-//                guard let jobID = self.viewModel?.requestResponse?.data.jobID else { return }
+                guard let model = self.viewModel?.byPromptResponse else { return }
 
                 DispatchQueue.main.async {
 //                    self.activityIndicator.startAnimating()
-                    self.view.isUserInteractionEnabled = false
+//                    self.view.isUserInteractionEnabled = false
                 }
-
-//                print(self.viewModel?.byPromptResponse!)
+                self.viewModel?.getMusic(by: model.id)
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 //                    self.viewModel?.fetchGenerationStatus(userId: userID, jobId: jobID)
@@ -118,6 +117,19 @@ class GeneratorViewController: BaseViewController {
                 DispatchQueue.main.async {
                     self.showBadAlert(message: "Write the text that you want to generate, without which it is impossible to continue.")
                 }
+            }
+        }.store(in: &cancellables)
+
+        self.viewModel?.fetchGenerationSuccessSubject.sink { success in
+            if success {
+                guard let model = self.viewModel?.fetchGenerationModel else { return }
+
+                DispatchQueue.main.async {
+                    self.showSuccessAlert(message: "You have successfully passed the generation stage, and access to the recording will be available in the History section within the next five minutes.")
+                }
+
+            } else {
+                print("######ERROOORRRR#########")
             }
         }.store(in: &cancellables)
     }
@@ -154,18 +166,27 @@ extension GeneratorViewController {
     private func makeButtonsAction() {
         segmentControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         self.add.addTarget(self, action: #selector(byPromptTapped), for: .touchUpInside)
+        self.generate.addTarget(self, action: #selector(generateAdvancedMusic), for: .touchUpInside)
+    }
+
+    @objc func generateAdvancedMusic() {
+        
     }
 
     @objc func byPromptTapped() {
-        guard let prompt = self.promtView.text else {
+        guard !self.promtView.getText().isEmpty else {
             self.showBadAlert(message: "Write the text that you want to generate, without which it is impossible to continue.")
             return
         }
+        let prompt = self.promtView.getText()
 
-        let bundle = "kabjsdfa-a12"
-        let appId = "4cf2e553-c8ad-4331-8ed0-0762aacd09c8"
+        guard let userID = self.viewModel?.userID else {
+            return
+        }
 
-        self.viewModel?.createByPromptRequest(userId: appId,
+        let bundle = Bundle.main.bundleIdentifier ?? ""
+
+        self.viewModel?.createByPromptRequest(userId: userID,
                                               bundle: bundle,
                                               prompt: prompt)
     }
@@ -205,7 +226,7 @@ extension GeneratorViewController {
 //        if Apphud.hasActiveSubscription() {
 //            SettingsRouter.showUpdatePaymentViewController(in: navigationController)
 //        } else {
-            SettingsRouter.showPaymentViewController(in: navigationController)
+            GeneratorRouter.showPaymentViewController(in: navigationController)
 //        }
     }
 

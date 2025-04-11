@@ -7,7 +7,7 @@
 import Foundation
 
 // MARK: - ByPromptResponseModel
-public struct ByPromptResponseModel: Codable {
+public struct ResponseModel: Codable {
     public let id: UUID
     public let error: String?
     public let items: [LoadedMusicModel]

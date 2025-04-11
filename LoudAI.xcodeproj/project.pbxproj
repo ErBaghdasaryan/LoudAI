@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC41A7562DA9601D0026A89E /* ApphudSDK in Frameworks */ = {isa = PBXBuildFile; productRef = CC41A7552DA9601D0026A89E /* ApphudSDK */; };
 		CC6D89302D887F58005B2A0F /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D892F2D887F58005B2A0F /* SQLite */; };
 		CC6D89332D887F6E005B2A0F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D89322D887F6E005B2A0F /* SnapKit */; };
 		CC6D89382D887F7B005B2A0F /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D89372D887F7B005B2A0F /* Swinject */; };
@@ -77,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC6D89302D887F58005B2A0F /* SQLite in Frameworks */,
+				CC41A7562DA9601D0026A89E /* ApphudSDK in Frameworks */,
 				CC6D89332D887F6E005B2A0F /* SnapKit in Frameworks */,
 				CC6D89382D887F7B005B2A0F /* Swinject in Frameworks */,
 				CC6D896F2D88837A005B2A0F /* LoudAIModel in Frameworks */,
@@ -158,6 +160,7 @@
 				CC6D893C2D887F87005B2A0F /* SwinjectAutoregistration */,
 				CC6D896E2D88837A005B2A0F /* LoudAIModel */,
 				CC6D89702D88837A005B2A0F /* LoudAIViewModel */,
+				CC41A7552DA9601D0026A89E /* ApphudSDK */,
 			);
 			productName = LoudAI;
 			productReference = CC6D88F82D887C0F005B2A0F /* LoudAI.app */;
@@ -246,6 +249,7 @@
 				CC6D89312D887F6E005B2A0F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CC6D89362D887F7B005B2A0F /* XCRemoteSwiftPackageReference "Swinject" */,
 				CC6D893B2D887F87005B2A0F /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */,
+				CC41A7542DA9601D0026A89E /* XCRemoteSwiftPackageReference "ApphudSDK" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CC6D88F92D887C0F005B2A0F /* Products */;
@@ -614,6 +618,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CC41A7542DA9601D0026A89E /* XCRemoteSwiftPackageReference "ApphudSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apphud/ApphudSDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.6.2;
+			};
+		};
 		CC6D892E2D887F58005B2A0F /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
@@ -649,6 +661,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CC41A7552DA9601D0026A89E /* ApphudSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC41A7542DA9601D0026A89E /* XCRemoteSwiftPackageReference "ApphudSDK" */;
+			productName = ApphudSDK;
+		};
 		CC6D892F2D887F58005B2A0F /* SQLite */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CC6D892E2D887F58005B2A0F /* XCRemoteSwiftPackageReference "SQLite.swift" */;

@@ -59,6 +59,14 @@ final class ViewControllerFactory {
         return viewController
     }
 
+    //MARK: Create
+    static func makeCreateViewController(navigationModel: AdvancedSendModel) -> CreateViewController {
+        let assembler = Assembler(commonAssemblies + [CreateAssembly()])
+        let viewController = CreateViewController()
+        viewController.viewModel = assembler.resolver.resolve(ICreateViewModel.self, argument: navigationModel)
+        return viewController
+    }
+
     //MARK: Settings
     static func makeSettingsViewController() -> SettingsViewController {
         let assembler = Assembler(commonAssemblies + [SettingsAssembly()])

@@ -6,15 +6,39 @@
 //
 
 import UIKit
+import ApphudSDK
+import LoudAIViewModel
+import AppTrackingTransparency
+import AdSupport
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    let appStorageService = AppStorageService()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        Apphud.start(apiKey: "app_Wj74LampkDLHAMRcHF5MF9n2i64gcx")
+        Apphud.enableDebugLogs()
+        Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
+        fetchIDFA()
+
+        let appHudUserId = Apphud.userID()
+        self.appStorageService.saveData(key: .apphudUserID, value: appHudUserId)
+
         return true
+    }
+
+    func fetchIDFA() {
+        if #available(iOS 14.5, *) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                ATTrackingManager.requestTrackingAuthorization { status in
+                    guard status == .authorized else { return }
+                    let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+                    Apphud.setDeviceIdentifiers(idfa: idfa, idfv: UIDevice.current.identifierForVendor?.uuidString)
+                }
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle
