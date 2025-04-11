@@ -12,7 +12,7 @@ import LoudAIModel
 class SubGenreCollectionViewCell: UICollectionViewCell, IReusableView {
 
     private let text = UILabel(text: "",
-                               textColor: UIColor.white,
+                               textColor: UIColor(hex: "#8D929B")!,
                                font: UIFont(name: "SFProText-Regular", size: 12))
 
     override init(frame: CGRect) {
@@ -57,5 +57,6 @@ class SubGenreCollectionViewCell: UICollectionViewCell, IReusableView {
         self.layer.masksToBounds = true
         self.layer.borderWidth = isSelected ? 0 : 1
         self.layer.borderColor = isSelected ? UIColor.clear.cgColor : UIColor(hex: "#8D929B")?.cgColor
+        self.text.textColor = isSelected ? UIColor.white : UIColor(hex: "#8D929B")!
     }
 }

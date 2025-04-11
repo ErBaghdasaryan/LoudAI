@@ -16,6 +16,16 @@ class IntrumentCollectionViewCell: UICollectionViewCell, IReusableView {
                                textColor: UIColor.white,
                                font: UIFont(name: "SFProText-Regular", size: 14))
 
+    private var isAdded: Bool = false {
+        willSet {
+            if newValue {
+                self.image.image = UIImage(named: "genreAdded")
+            } else {
+                self.image.image = UIImage(named: "plusGenre")
+            }
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -61,5 +71,9 @@ class IntrumentCollectionViewCell: UICollectionViewCell, IReusableView {
             self.image.image = UIImage(named: "plusGenre")
         }
         self.name.text = title
+    }
+
+    func updateStateUI(isAdded: Bool) {
+        self.isAdded = isAdded
     }
 }

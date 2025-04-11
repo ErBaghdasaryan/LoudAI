@@ -66,4 +66,22 @@ final class ViewControllerFactory {
         viewController.viewModel = assembler.resolver.resolve(ISettingsViewModel.self)
         return viewController
     }
+
+    //MARK: PrivacyPolicy
+    static func makePrivacyViewController() -> PrivacyViewController {
+        let viewController = PrivacyViewController()
+        return viewController
+    }
+
+    //MARK: Terms
+    static func makeTermsViewController() -> TermsViewController {
+        let viewController = TermsViewController()
+        return viewController
+    }
+
+    //MARK: ContactUs
+    static func makeContactUsViewController() -> ContactUsViewController {
+        let viewController = ContactUsViewController()
+        return viewController
+    }
 }

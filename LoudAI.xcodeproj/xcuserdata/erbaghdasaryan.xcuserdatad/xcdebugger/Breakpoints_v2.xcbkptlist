@@ -14,8 +14,8 @@
             filePath = "LoudAI/View/Generator/GeneratorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "byPromptTapped()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "LoudAI/View/Generator/GeneratorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "setupViewModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,13 +46,13 @@
             filePath = "LoudAI/View/Generator/GeneratorViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "setupViewModel()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "5DE48F58-966B-4F21-B223-34873A27D8BC - cfa93871c23d7457"
+                  uuid = "5DE48F58-966B-4F21-B223-34873A27D8BC - cfa93871c23d75a0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -62,11 +62,11 @@
                   urlString = "file:///Users/erbaghdasaryan/Documents/Xcode/LoudAI/LoudAI/View/Generator/GeneratorViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103">
+                  startingLineNumber = "118"
+                  endingLineNumber = "118">
                </Location>
                <Location
-                  uuid = "5DE48F58-966B-4F21-B223-34873A27D8BC - 55dab0abcec2215"
+                  uuid = "5DE48F58-966B-4F21-B223-34873A27D8BC - 55dab0abcec23e2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -76,8 +76,8 @@
                   urlString = "file:///Users/erbaghdasaryan/Documents/Xcode/LoudAI/LoudAI/View/Generator/GeneratorViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103">
+                  startingLineNumber = "118"
+                  endingLineNumber = "118">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -95,6 +95,22 @@
             startingLineNumber = "21"
             endingLineNumber = "21"
             landmarkName = "createByPromptRequest(userId:appBundle:prompt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4B02ABE1-6267-41EF-8011-6F2E68B6E99A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LoudAI/View/Generator/GeneratorViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "setupViewModel()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

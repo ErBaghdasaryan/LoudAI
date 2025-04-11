@@ -140,10 +140,10 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let navigationController = self.navigationController else { return }
-        if let model = self.viewModel?.savedMusics[indexPath.row] {
+//        if let model = self.viewModel?.savedMusics[indexPath.row] {
 //            HistoryRouter.showEditPhotoViewController(in: navigationController,
 //                                                      navigationModel: .init(image: model.image))
-        }
+//        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

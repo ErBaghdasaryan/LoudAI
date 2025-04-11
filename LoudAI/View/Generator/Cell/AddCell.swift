@@ -13,6 +13,9 @@ class AddCell: UICollectionViewCell, IReusableView {
 
     var collectionView: UICollectionView!
     let istrumentsData = ["Genre", "Duration", "Instrument", "Genry Blend", "Energy", "Structure", "Tempo", "Key"]
+
+    private var selectedTypes: [CellType] = []
+
     public let indexSubject = PassthroughSubject<Int, Never>()
     var cancellables = Set<AnyCancellable>()
 
@@ -65,10 +68,10 @@ class AddCell: UICollectionViewCell, IReusableView {
         }
     }
 
-//    func configure(with title: String, and image: UIImage) {
-//        self.image.image = image
-//        self.date.text = title
-//    }
+    func updateSelectedCells(_ selected: [CellType]) {
+        self.selectedTypes = selected
+        self.collectionView.reloadData()
+    }
 }
 
 extension AddCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
@@ -79,10 +82,30 @@ extension AddCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: IntrumentCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
 
+        let title = istrumentsData[indexPath.row]
         if indexPath.row == 0 {
-            cell.configure(with: self.istrumentsData[indexPath.row], isGenre: true)
+            cell.configure(with: title, isGenre: true)
+            return cell
         } else {
-            cell.configure(with: self.istrumentsData[indexPath.row])
+            cell.configure(with: title)
+        }
+
+        let type: CellType?
+        switch indexPath.row {
+        case 0: type = .subGenre
+        case 1: type = .duration
+        case 2: type = .instruments
+        case 3: type = .genreBlends
+        case 4: type = .energy
+        case 5: type = .structure
+        case 6: type = .tempo
+        case 7: type = .key
+        default: type = nil
+        }
+
+        if let type = type {
+            let isAdded = selectedTypes.contains(type)
+            cell.updateStateUI(isAdded: isAdded)
         }
 
         return cell
@@ -95,6 +118,10 @@ extension AddCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !(indexPath.row == 0) {
             self.indexSubject.send(indexPath.row)
+
+            if let cell = collectionView.cellForItem(at: indexPath) as? IntrumentCollectionViewCell {
+                cell.updateStateUI(isAdded: true)
+            }
         }
     }
 }

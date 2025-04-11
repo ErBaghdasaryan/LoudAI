@@ -17,6 +17,7 @@ class GeneratorViewController: BaseViewController {
     private let segmentControl = UISegmentedControl(items: ["Generator",
                                                     "Text to Music"])
     private let promtView = CustomTextView(placeholder: "Epic score that feels like the beginning of an epic saga.")
+    private let generate = UIButton(type: .system)
     private let add = UIButton(type: .system)
     var collectionView: UICollectionView!
     private var selectedCells: [CellType] = []
@@ -53,6 +54,17 @@ class GeneratorViewController: BaseViewController {
         add.layer.masksToBounds = true
         add.layer.cornerRadius = 16
 
+        generate.setTitle("Generate", for: .normal)
+        generate.setTitleColor(UIColor.white, for: .normal)
+        generate.titleLabel?.font = UIFont(name: "SFProText-Regular", size: 15)
+        generate.setImage(UIImage(named: "addSong"), for: .normal)
+        generate.tintColor = UIColor.white
+        generate.imageEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 8)
+        generate.titleEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 16)
+        generate.backgroundColor = UIColor(hex: "#4C19DE")
+        generate.layer.masksToBounds = true
+        generate.layer.cornerRadius = 16
+
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
@@ -78,6 +90,7 @@ class GeneratorViewController: BaseViewController {
 
         self.view.addSubview(segmentControl)
         self.view.addSubview(collectionView)
+        self.view.addSubview(generate)
         setupConstraints()
         setupNavigationItems()
     }
@@ -95,6 +108,8 @@ class GeneratorViewController: BaseViewController {
 //                    self.activityIndicator.startAnimating()
                     self.view.isUserInteractionEnabled = false
                 }
+
+//                print(self.viewModel?.byPromptResponse!)
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 //                    self.viewModel?.fetchGenerationStatus(userId: userID, jobId: jobID)
@@ -120,7 +135,14 @@ class GeneratorViewController: BaseViewController {
             view.top.equalTo(segmentControl.snp.bottom).offset(16)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
-            view.bottom.equalToSuperview()
+            view.bottom.equalToSuperview().inset(149)
+        }
+
+        generate.snp.makeConstraints { view in
+            view.bottom.equalToSuperview().inset(97)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(40)
         }
     }
 
@@ -190,6 +212,7 @@ extension GeneratorViewController {
     private func isPromtMode(_ bool: Bool) {
         if bool {
             self.collectionView.removeFromSuperview()
+            self.generate.removeFromSuperview()
             self.view.addSubview(promtView)
             self.view.addSubview(add)
 
@@ -214,13 +237,22 @@ extension GeneratorViewController {
                 self.add.removeFromSuperview()
             }
             self.view.addSubview(collectionView)
+            self.view.addSubview(generate)
 
             collectionView.snp.makeConstraints { view in
                 view.top.equalTo(segmentControl.snp.bottom).offset(16)
                 view.leading.equalToSuperview().offset(16)
                 view.trailing.equalToSuperview().inset(16)
-                view.bottom.equalToSuperview()
+                view.bottom.equalToSuperview().inset(149)
             }
+
+            generate.snp.makeConstraints { view in
+                view.bottom.equalToSuperview().inset(97)
+                view.leading.equalToSuperview().offset(16)
+                view.trailing.equalToSuperview().inset(16)
+                view.height.equalTo(40)
+            }
+
         }
     }
 
@@ -236,8 +268,11 @@ extension GeneratorViewController {
             return cell
         case .duration:
             let cell: DurationCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .instruments:
             let cell: InstrumentsCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -246,28 +281,47 @@ extension GeneratorViewController {
             return cell
         case .genreBlends:
             let cell: GenreBlendsCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            if let models = self.viewModel?.genreItems {
+                cell.configure(with: models)
+            }
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .energy:
             let cell: EnergyCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .structure:
             let cell: StructureCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .tempo:
             let cell: TempoCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .key:
             let cell: KeyCell = collectionView.dequeueReusableCell(for: indexPath)
-            cell.configure(with: "Aaa",
-                           and: UIImage(named: "genreImage")!)
+
+            cell.deleteTapped.sink { [weak self] index in
+                self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
             return cell
         case .genre:
             break
@@ -281,14 +335,14 @@ extension GeneratorViewController {
         let cellToAdd: CellType
 
         switch index {
-        case 1: cellToAdd = .subGenre
-        case 2: cellToAdd = .duration
-        case 3: cellToAdd = .instruments
-        case 4: cellToAdd = .genreBlends
-        case 5: cellToAdd = .energy
-        case 6: cellToAdd = .structure
-        case 7: cellToAdd = .tempo
-        case 8: cellToAdd = .key
+        case 0: cellToAdd = .subGenre
+        case 1: cellToAdd = .duration
+        case 2: cellToAdd = .instruments
+        case 3: cellToAdd = .genreBlends
+        case 4: cellToAdd = .energy
+        case 5: cellToAdd = .structure
+        case 6: cellToAdd = .tempo
+        case 7: cellToAdd = .key
         default: return
         }
 
@@ -296,6 +350,23 @@ extension GeneratorViewController {
 
         self.selectedCells.append(cellToAdd)
         self.collectionView.reloadData()
+    }
+
+    private func removeCell(_ type: CellType) {
+        guard let index = self.selectedCells.firstIndex(of: type) else { return }
+
+        self.selectedCells.remove(at: index)
+
+        let indexPath = IndexPath(item: index + 1, section: 0)
+
+        self.collectionView.performBatchUpdates {
+            self.collectionView.deleteItems(at: [indexPath])
+        }
+
+        if let addCellIndexPath = IndexPath(item: self.selectedCells.count + 1, section: 0) as IndexPath?,
+           let addCell = self.collectionView.cellForItem(at: addCellIndexPath) as? AddCell {
+            addCell.updateSelectedCells(self.selectedCells)
+        }
     }
 }
 
@@ -321,7 +392,7 @@ extension GeneratorViewController: UICollectionViewDataSource, UICollectionViewD
                 guard let self = self else { return }
 
                 self.currentSubgenreIndex = index
-                self.addCell(from: 1)
+                self.addCell(from: 0)
 
                 self.collectionView.reloadData()
 
@@ -331,9 +402,11 @@ extension GeneratorViewController: UICollectionViewDataSource, UICollectionViewD
         } else if indexPath.item == selectedCells.count + 1 {
             let cell: AddCell = collectionView.dequeueReusableCell(for: indexPath)
 
+            cell.updateSelectedCells(selectedCells)
+
             cell.indexSubject.sink { [weak self] index in
-                guard let self = self else { return }
-                self.addCell(from: index)
+                self?.addCell(from: index)
+                cell.updateSelectedCells(self?.selectedCells ?? [])
             }.store(in: &cell.cancellables)
 
             return cell
@@ -361,15 +434,15 @@ extension GeneratorViewController: UICollectionViewDataSource, UICollectionViewD
                 case .instruments:
                     return CGSize(width: width, height: 440)
                 case .genreBlends:
-                    return CGSize(width: width, height: 144)
+                    return CGSize(width: width, height: 148)
                 case .energy:
-                    return CGSize(width: width, height: 82)
+                    return CGSize(width: width, height: 85)
                 case .structure:
-                    return CGSize(width: width, height: 390)
+                    return CGSize(width: width, height: 400)
                 case .tempo:
                     return CGSize(width: width, height: 110)
                 case .key:
-                    return CGSize(width: width, height: 172)
+                    return CGSize(width: width, height: 180)
                 default:
                     return CGSize(width: width, height: 80)
                 }

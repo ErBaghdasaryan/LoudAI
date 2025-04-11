@@ -96,14 +96,6 @@ extension GenreCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: GenreCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-//        let dataIndex = indexPath.row - 1
-
-//        self.loadImage(from: self.collectionViewData[dataIndex].preview) { image in
-//            if let image = image {
-//                cell.setup(with: "",
-//                           image: image)
-//            }
-//        }
 
         cell.updateSelectionState(isSelected: indexPath == selectedIndex)
 
