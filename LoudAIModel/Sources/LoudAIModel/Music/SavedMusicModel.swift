@@ -9,14 +9,16 @@ import UIKit
 
 public struct SavedMusicModel {
     public let id: Int?
-    public let image: UIImage
-    public let date: String
-    public let prompt: String
+    public let genre: String
+    public let subGenre: String
+    public let duration: String
+    public let musics: [LoadedMusicModel]
 
-    public init(id: Int? = nil, image: UIImage, date: String, prompt: String) {
+    public init(id: Int? = nil, genre: String, subGenre: String, duration: String, musics: [LoadedMusicModel]) {
         self.id = id
-        self.image = image
-        self.date = date
-        self.prompt = prompt
+        self.genre = genre
+        self.subGenre = subGenre
+        self.duration = duration
+        self.musics = musics
     }
 }
