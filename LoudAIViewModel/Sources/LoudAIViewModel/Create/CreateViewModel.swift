@@ -16,6 +16,7 @@ public protocol ICreateViewModel {
     func createAdvancedRequest(model: AdvancedSendModel)
     var getMusicSuccessSubject: PassthroughSubject<ResponseModel, Never> { get }
     func startPollingForGeneratedTrack(by musicID: UUID)
+    func addMusic(_ model: SavedMusicModel)
 }
 
 public class CreateViewModel: ICreateViewModel {
@@ -96,5 +97,13 @@ public class CreateViewModel: ICreateViewModel {
                 }
             })
             .store(in: &cancellables)
+    }
+
+    public func addMusic(_ model: SavedMusicModel) {
+        do {
+            _ = try self.createService.addSavedMusic(model)
+        } catch {
+            print(error)
+        }
     }
 }

@@ -131,9 +131,12 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
         } else {
             let cell: MusicCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-            //            if let model = self.viewModel?.savedItems[indexPath.row] {
-            //                cell.configure(with: model)
-            //            }
+            if let model = self.viewModel?.savedMusics[indexPath.row] {
+                cell.configure(firstImage: model.genre,
+                               secondImage: model.subGenre,
+                               title: "\(model.genre) + \(model.subGenre)",
+                               data: [model.genre, model.subGenre, model.duration])
+            }
             return cell
         }
     }

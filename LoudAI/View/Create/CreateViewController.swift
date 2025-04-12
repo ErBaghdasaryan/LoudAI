@@ -8,6 +8,7 @@ import UIKit
 import LoudAIViewModel
 import SnapKit
 import StoreKit
+import LoudAIModel
 
 class CreateViewController: BaseViewController {
 
@@ -86,7 +87,27 @@ class CreateViewController: BaseViewController {
         }.store(in: &cancellables)
 
         self.viewModel?.getMusicSuccessSubject.sink { model in
-            print(model)
+
+            guard let secondModel = self.viewModel?.model else { return }
+
+            let totalSeconds = secondModel.duration
+            let minutes = totalSeconds / 60
+            let seconds = totalSeconds % 60
+            let durationToSend = String(format: "%02d:%02d", minutes, seconds)
+
+            let model = SavedMusicModel(genre: secondModel.genre,
+                                        subGenre: secondModel.genreBlend,
+                                        duration: durationToSend,
+                                        musics: model.items)
+
+            self.viewModel?.addMusic(model)
+            DispatchQueue.main.async {
+                self.showSuccessAlert(message: "Your music is ready, you can see it in the History section..")
+            }
+
+            guard let navigationController = self.navigationController else { return }
+            CreateRouter.popViewController(in: navigationController)
+
         }.store(in: &cancellables)
     }
 

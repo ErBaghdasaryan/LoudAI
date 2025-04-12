@@ -24,6 +24,10 @@ public class HistoryViewModel: IHistoryViewModel {
     }
 
     public func loadMusics() {
-//        self.savedItems = historyService.loadSavedItems()
+        do {
+            self.savedMusics = try self.historyService.getAllSavedMusics()
+        } catch {
+            print(error)
+        }
     }
 }

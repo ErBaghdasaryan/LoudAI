@@ -95,46 +95,54 @@ class MusicCollectionViewCell: UICollectionViewCell, IReusableView {
 
     private func setupConstraints() {
 
-        cyrcleView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(15)
-            make.leading.equalToSuperview().offset(18)
-            make.height.equalTo(90)
-            make.width.equalTo(90)
+        cyrcleView.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(15)
+            view.leading.equalToSuperview().offset(18)
+            view.height.equalTo(90)
+            view.width.equalTo(90)
         }
 
-        firstImage.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
-            make.leading.equalToSuperview().offset(12)
-            make.height.equalTo(72)
-            make.width.equalTo(72)
+        firstImage.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(12)
+            view.leading.equalToSuperview().offset(12)
+            view.height.equalTo(72)
+            view.width.equalTo(72)
         }
 
-        secondImage.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(36)
-            make.leading.equalToSuperview().offset(41)
-            make.height.equalTo(72)
-            make.width.equalTo(72)
+        secondImage.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(36)
+            view.leading.equalToSuperview().offset(41)
+            view.height.equalTo(72)
+            view.width.equalTo(72)
         }
 
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
-            make.leading.equalTo(secondImage.snp.trailing).offset(16)
-            make.trailing.equalToSuperview().inset(40)
-            make.height.equalTo(18)
+        titleLabel.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(12)
+            view.leading.equalTo(secondImage.snp.trailing).offset(16)
+            view.trailing.equalToSuperview().inset(40)
+            view.height.equalTo(18)
         }
 
-        deleteButton.snp.makeConstraints { make in
-            make.centerY.equalTo(titleLabel)
-            make.trailing.equalToSuperview().inset(12)
-            make.width.height.equalTo(20)
+        deleteButton.snp.makeConstraints { view in
+            view.centerY.equalTo(titleLabel)
+            view.trailing.equalToSuperview().inset(12)
+            view.width.height.equalTo(20)
         }
 
         collectionView.snp.makeConstraints { view in
             view.top.equalTo(titleLabel.snp.bottom).offset(12)
-            view.leading.equalToSuperview().offset(12)
+            view.leading.equalTo(secondImage.snp.trailing).offset(16)
             view.trailing.equalToSuperview().inset(12)
             view.bottom.equalToSuperview().inset(12)
         }
+    }
+
+    func configure(firstImage: String?, secondImage: String?, title: String, data: [String]) {
+        self.firstImage.image = UIImage(named: firstImage ?? "Ambient")
+        self.secondImage.image = UIImage(named: secondImage ?? "Epic Score")
+        self.titleLabel.text = title
+        self.collectionViewData = data
+        self.collectionView.reloadData()
     }
 
     @objc private func deleteButtonTapped() {
