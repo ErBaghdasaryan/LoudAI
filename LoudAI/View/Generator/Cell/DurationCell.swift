@@ -24,7 +24,7 @@ class DurationCell: UICollectionViewCell, IReusableView {
     private let deleteButton = UIButton(type: .system)
 
     public let deleteTapped = PassthroughSubject<Void, Never>()
-    public let valueChanged = PassthroughSubject<Float, Never>()
+    public let valueChanged = PassthroughSubject<Int, Never>()
 
     var cancellables = Set<AnyCancellable>()
 
@@ -104,7 +104,7 @@ class DurationCell: UICollectionViewCell, IReusableView {
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
         durationLabel.text = String(format: "%02d:%02d", minutes, seconds)
-        valueChanged.send(slider.value)
+        valueChanged.send(Int(slider.value))
     }
 
     @objc private func deleteButtonTapped() {

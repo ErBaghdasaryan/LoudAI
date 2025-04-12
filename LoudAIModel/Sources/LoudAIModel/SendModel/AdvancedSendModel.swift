@@ -12,6 +12,7 @@ public struct AdvancedSendModel: Codable {
     public let userID: String
     public let appBundle: String
     public let genre: String
+    public let subGenre: String
     public let duration: Int
     public let instruments: [String]
     public let genreBlend: String
@@ -21,10 +22,11 @@ public struct AdvancedSendModel: Codable {
     public let keyRoot: String
     public let keyQuality: String
 
-    public init(userID: String, appBundle: String, genre: String, duration: Int, instruments: [String], genreBlend: String, energy: String, structureID: Int, bpm: Int, keyRoot: String, keyQuality: String) {
+    public init(userID: String, appBundle: String, genre: String, subGenre: String, duration: Int, instruments: [String], genreBlend: String, energy: String, structureID: Int, bpm: Int, keyRoot: String, keyQuality: String) {
         self.userID = userID
         self.appBundle = appBundle
         self.genre = genre
+        self.subGenre = subGenre
         self.duration = duration
         self.instruments = instruments
         self.genreBlend = genreBlend

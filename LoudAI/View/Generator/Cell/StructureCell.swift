@@ -25,6 +25,7 @@ class StructureCell: UICollectionViewCell, IReusableView {
 
     private var finalStack: UIStackView!
 
+    public let currentStructureSubject = PassthroughSubject<Int, Never>()
     var cancellables = Set<AnyCancellable>()
 
     private var selectedStructure: Structure?
@@ -125,24 +126,28 @@ class StructureCell: UICollectionViewCell, IReusableView {
             waitForIt.setImage(UIImage(named: "noneWaitForIt"), for: .normal)
             slowBurn.setImage(UIImage(named: "noneSlowBurn"), for: .normal)
             self.selectedStructure = .classic
+            self.currentStructureSubject.send(returnSelectedEnergy()!)
         case 1:
             toTheBone.setImage(UIImage(named: "selectedToTheBone"), for: .normal)
             classic.setImage(UIImage(named: "noneClassic"), for: .normal)
             waitForIt.setImage(UIImage(named: "noneWaitForIt"), for: .normal)
             slowBurn.setImage(UIImage(named: "noneSlowBurn"), for: .normal)
             self.selectedStructure = .toTheBone
+            self.currentStructureSubject.send(returnSelectedEnergy()!)
         case 2:
             waitForIt.setImage(UIImage(named: "selectedWaitForIt"), for: .normal)
             classic.setImage(UIImage(named: "noneClassic"), for: .normal)
             toTheBone.setImage(UIImage(named: "noneToTheBone"), for: .normal)
             slowBurn.setImage(UIImage(named: "noneSlowBurn"), for: .normal)
             self.selectedStructure = .waitForIt
+            self.currentStructureSubject.send(returnSelectedEnergy()!)
         case 3:
             slowBurn.setImage(UIImage(named: "selectedSlowBurn"), for: .normal)
             classic.setImage(UIImage(named: "noneClassic"), for: .normal)
             toTheBone.setImage(UIImage(named: "noneToTheBone"), for: .normal)
             waitForIt.setImage(UIImage(named: "noneWaitForIt"), for: .normal)
             self.selectedStructure = .slowBurn
+            self.currentStructureSubject.send(returnSelectedEnergy()!)
         default:
             break
         }

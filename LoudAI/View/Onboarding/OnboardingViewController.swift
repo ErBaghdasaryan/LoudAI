@@ -24,10 +24,10 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
     private let afterBottom = UIView()
     private let header = UILabel(text: "Unknown",
                                  textColor: .white,
-                                 font: UIFont(name: "SFProText-Bold", size: 24))
+                                 font: UIFont(name: "SFProText-Bold", size: 32))
     private let subheader = UILabel(text: "Unknown",
                                     textColor: .white,
-                                    font: UIFont(name: "SFProText-Regular", size: 16))
+                                    font: UIFont(name: "SFProText-Regular", size: 18))
     var collectionView: UICollectionView!
     private let nextButton = UIButton(type: .system)
     private var currentIndex: Int = 0
@@ -41,7 +41,7 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
     override func setupUI() {
         super.setupUI()
 
-        self.nextButton.setTitle("Continue", for: .normal)
+        self.nextButton.setTitle("Next", for: .normal)
         self.nextButton.setTitleColor(.white, for: .normal)
         self.nextButton.layer.cornerRadius = 20
         self.nextButton.layer.masksToBounds = true
@@ -226,15 +226,15 @@ extension OnboardingViewController {
 
             header.snp.remakeConstraints { view in
                 view.top.equalTo(bottomView.snp.top).offset(16)
-                view.leading.equalToSuperview().offset(73)
-                view.trailing.equalToSuperview().inset(73)
+                view.leading.equalToSuperview().offset(10)
+                view.trailing.equalToSuperview().inset(10)
                 view.height.equalTo(60)
             }
 
             subheader.snp.remakeConstraints { view in
                 view.top.equalTo(header.snp.bottom).offset(8)
-                view.leading.equalToSuperview().offset(16)
-                view.trailing.equalToSuperview().inset(16)
+                view.leading.equalToSuperview().offset(10)
+                view.trailing.equalToSuperview().inset(10)
                 view.height.equalTo(18)
             }
 
@@ -249,27 +249,27 @@ extension OnboardingViewController {
                 view.bottom.equalToSuperview()
                 view.leading.equalToSuperview()
                 view.trailing.equalToSuperview()
-                view.height.equalTo(200)
+                view.height.equalTo(224)
             }
 
             afterBottom.snp.remakeConstraints { view in
                 view.bottom.equalToSuperview()
                 view.leading.equalToSuperview()
                 view.trailing.equalToSuperview()
-                view.height.equalTo(200)
+                view.height.equalTo(224)
             }
 
             header.snp.remakeConstraints { view in
                 view.top.equalTo(bottomView.snp.top).offset(16)
-                view.leading.equalToSuperview().offset(16)
-                view.trailing.equalToSuperview().inset(16)
-                view.height.equalTo(26)
+                view.leading.equalToSuperview().offset(10)
+                view.trailing.equalToSuperview().inset(10)
+                view.height.equalTo(34)
             }
 
             subheader.snp.remakeConstraints { view in
                 view.top.equalTo(header.snp.bottom).offset(8)
-                view.leading.equalToSuperview().offset(16)
-                view.trailing.equalToSuperview().inset(16)
+                view.leading.equalToSuperview().offset(10)
+                view.trailing.equalToSuperview().inset(10)
                 view.height.equalTo(18)
             }
 
@@ -283,32 +283,32 @@ extension OnboardingViewController {
                 view.bottom.equalToSuperview()
                 view.leading.equalToSuperview()
                 view.trailing.equalToSuperview()
-                view.height.equalTo(228)
+                view.height.equalTo(260)
             }
 
             afterBottom.snp.remakeConstraints { view in
                 view.bottom.equalToSuperview()
                 view.leading.equalToSuperview()
                 view.trailing.equalToSuperview()
-                view.height.equalTo(228)
+                view.height.equalTo(260)
             }
 
             header.snp.remakeConstraints { view in
                 view.top.equalTo(bottomView.snp.top).offset(16)
-                view.leading.equalToSuperview().offset(73)
-                view.trailing.equalToSuperview().inset(73)
-                view.height.equalTo(90)
+                view.leading.equalToSuperview().offset(10)
+                view.trailing.equalToSuperview().inset(10)
+                view.height.equalTo(34)
             }
 
             subheader.snp.remakeConstraints { view in
                 view.top.equalTo(header.snp.bottom).offset(8)
-                view.leading.equalToSuperview().offset(16)
-                view.trailing.equalToSuperview().inset(16)
-                view.height.equalTo(18)
+                view.leading.equalToSuperview().offset(10)
+                view.trailing.equalToSuperview().inset(10)
+                view.height.equalTo(70)
             }
 
-            self.header.numberOfLines = 3
-            self.header.lineBreakMode = .byWordWrapping
+            self.subheader.numberOfLines = 0
+            self.subheader.lineBreakMode = .byWordWrapping
         default:
             break
         }

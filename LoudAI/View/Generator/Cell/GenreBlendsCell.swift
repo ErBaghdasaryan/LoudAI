@@ -21,6 +21,7 @@ class GenreBlendsCell: UICollectionViewCell, IReusableView {
     public let indexSubject = PassthroughSubject<Int, Never>()
     private let deleteButton = UIButton(type: .system)
 
+    public let currentGenreBlendsSubject = PassthroughSubject<GenreModel, Never>()
     public let deleteTapped = PassthroughSubject<Void, Never>()
 
     var cancellables = Set<AnyCancellable>()
@@ -144,5 +145,6 @@ extension GenreBlendsCell: UICollectionViewDelegateFlowLayout, UICollectionViewD
         }
 
         self.indexSubject.send(indexPath.row)
+        self.currentGenreBlendsSubject.send(selectedGenre!)
     }
 }

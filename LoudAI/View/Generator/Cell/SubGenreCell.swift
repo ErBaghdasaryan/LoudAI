@@ -19,6 +19,14 @@ class SubGenreCell: UICollectionViewCell, IReusableView {
     private var selectedGenre: String?
     private var collectionViewData: [String] = []
 
+    public let currentSubGenreSubject = PassthroughSubject<String, Never>()
+    var cancellables = Set<AnyCancellable>()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -122,5 +130,7 @@ extension SubGenreCell: UICollectionViewDelegateFlowLayout, UICollectionViewData
         if let newCell = collectionView.cellForItem(at: indexPath) as? SubGenreCollectionViewCell {
             newCell.updateSelectionState(isSelected: true)
         }
+
+        currentSubGenreSubject.send(selectedGenre!)
     }
 }

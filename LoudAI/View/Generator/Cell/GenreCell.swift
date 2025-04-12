@@ -19,6 +19,7 @@ class GenreCell: UICollectionViewCell, IReusableView {
     private var selectedGenre: GenreModel?
     private var collectionViewData: [GenreModel] = []
     public let indexSubject = PassthroughSubject<Int, Never>()
+    public let currentGenreSubject = PassthroughSubject<GenreModel, Never>()
     var cancellables = Set<AnyCancellable>()
 
     override func prepareForReuse() {
@@ -123,5 +124,6 @@ extension GenreCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSou
         }
 
         self.indexSubject.send(indexPath.row)
+        self.currentGenreSubject.send(selectedGenre!)
     }
 }

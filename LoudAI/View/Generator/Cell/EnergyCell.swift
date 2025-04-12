@@ -38,6 +38,7 @@ class EnergyCell: UICollectionViewCell, IReusableView {
 
     private var finalStack: UIStackView!
 
+    public let currentEnergySubject = PassthroughSubject<String, Never>()
     var cancellables = Set<AnyCancellable>()
 
     private var selectedEnergy: Energy?
@@ -135,16 +136,19 @@ class EnergyCell: UICollectionViewCell, IReusableView {
             originalButton.setImage(UIImage(named: "nonSelectedEnergy"), for: .normal)
             heighButton.setImage(UIImage(named: "nonSelectedEnergy"), for: .normal)
             self.selectedEnergy = .low
+            self.currentEnergySubject.send(returnSelectedEnergy()!)
         case 1:
             originalButton.setImage(UIImage(named: "selectedEnergy"), for: .normal)
             lowButton.setImage(UIImage(named: "nonSelectedEnergy"), for: .normal)
             heighButton.setImage(UIImage(named: "nonSelectedEnergy"), for: .normal)
             self.selectedEnergy = .original
+            self.currentEnergySubject.send(returnSelectedEnergy()!)
         case 2:
             heighButton.setImage(UIImage(named: "selectedEnergy"), for: .normal)
             lowButton.setImage(UIImage(named: "nonSelectedEnergy"), for: .normal)
             originalButton.setImage(UIImage(named: "nonSelectedEnergy"), for: .normal)
             self.selectedEnergy = .high
+            self.currentEnergySubject.send(returnSelectedEnergy()!)
         default:
             break
         }

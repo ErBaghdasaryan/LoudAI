@@ -14,11 +14,12 @@ public protocol IGeneratorViewModel {
     func loadGenres()
     var userID: String { get set }
     var byPromptResponse: ResponseModel? { get set }
-    func getMusic(by musicID: UUID)
-    var fetchGenerationModel: ResponseModel? { get set }
-    var fetchGenerationSuccessSubject: PassthroughSubject<Bool, Never> { get }
+
     var createByPromptSuccessSubject: PassthroughSubject<Bool, Never> { get }
     func createByPromptRequest(userId: String, bundle: String, prompt: String)
+
+    var getMusicSuccessSubject: PassthroughSubject<ResponseModel, Never> { get }
+    func startPollingForGeneratedTrack(by musicID: UUID)
 }
 
 public class GeneratorViewModel: IGeneratorViewModel {
@@ -28,10 +29,12 @@ public class GeneratorViewModel: IGeneratorViewModel {
     public let appStorageService: IAppStorageService
 
     public var byPromptResponse: ResponseModel?
-    public var fetchGenerationModel: ResponseModel?
-    public var fetchGenerationSuccessSubject = PassthroughSubject<Bool, Never>()
     public var createByPromptSuccessSubject = PassthroughSubject<Bool, Never>()
+    public var getMusicSuccessSubject = PassthroughSubject<ResponseModel, Never>()
     var cancellables = Set<AnyCancellable>()
+
+    private var pollingCancellable: AnyCancellable?
+    private var isPolling = false
 
     public var genreItems: [GenreModel] = []
 
@@ -55,18 +58,36 @@ public class GeneratorViewModel: IGeneratorViewModel {
         genreItems = generatorService.getGenreItems()
     }
 
-    public func getMusic(by musicID: UUID) {
+    public func startPollingForGeneratedTrack(by musicID: UUID) {
+        guard !isPolling else { return }
+        isPolling = true
+
+        pollingCancellable = Timer
+            .publish(every: 25.0, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.getMusicsRequest(by: musicID)
+            }
+    }
+
+    public func getMusicsRequest(by musicID: UUID) {
         networkService.getMusic(by: musicID)
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
-                case .failure:
-                    self?.fetchGenerationSuccessSubject.send(false)
-                case .finished:
-                    break
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print("Get music error: \(error)")
                 }
-            }, receiveValue: { [weak self] response in
-                self?.fetchGenerationModel = response
-                self?.fetchGenerationSuccessSubject.send(true)
+            }, receiveValue: { [weak self] responseModel in
+                guard let self = self else { return }
+
+                if !responseModel.items.isEmpty {
+                    self.pollingCancellable?.cancel()
+                    self.isPolling = false
+
+                    self.getMusicSuccessSubject.send(responseModel)
+                } else {
+                    print("Still generating... will poll again.")
+                }
             })
             .store(in: &cancellables)
     }

@@ -27,8 +27,9 @@ class TempoCell: UICollectionViewCell, IReusableView {
                                         textColor: UIColor(hex: "#8D929B")!,
                                         font: UIFont(name: "SFProText-Regular", size: 12))
 
+    
     public let deleteTapped = PassthroughSubject<Void, Never>()
-    public let valueChanged = PassthroughSubject<Float, Never>()
+    public let valueChanged = PassthroughSubject<Int, Never>()
 
     var cancellables = Set<AnyCancellable>()
 
@@ -116,7 +117,7 @@ class TempoCell: UICollectionViewCell, IReusableView {
     @objc private func sliderValueChanged() {
         let value = Int(slider.value)
         durationLabel.text = "\(value) BPM"
-        valueChanged.send(slider.value)
+        valueChanged.send(Int(slider.value))
     }
 
     @objc private func deleteButtonTapped() {

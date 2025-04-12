@@ -28,6 +28,13 @@ class KeyCell: UICollectionViewCell, IReusableView {
 
     private var selectedQuality = "minor"
 
+    public let currentValuesSubject = PassthroughSubject<(String, String), Never>()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -36,11 +43,6 @@ class KeyCell: UICollectionViewCell, IReusableView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        cancellables.removeAll()
     }
 
     private func setupUI() {
@@ -121,8 +123,10 @@ class KeyCell: UICollectionViewCell, IReusableView {
         switch sender.selectedSegmentIndex {
         case 0:
             self.selectedQuality = "minor"
+            self.currentValuesSubject.send((selectedRoot!, self.selectedQuality))
         case 1:
             self.selectedQuality = "major"
+            self.currentValuesSubject.send((selectedRoot!, self.selectedQuality))
         default:
             break
         }
@@ -177,5 +181,7 @@ extension KeyCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSourc
         if let newCell = collectionView.cellForItem(at: indexPath) as? SubGenreCollectionViewCell {
             newCell.updateSelectionState(isSelected: true)
         }
+
+        self.currentValuesSubject.send((selectedRoot!, self.selectedQuality))
     }
 }

@@ -26,6 +26,17 @@ class GeneratorViewController: BaseViewController {
 
     private var currentSubgenreIndex: Int = 1
 
+    private var currentGenre: String?
+    private var currentSubGenre: String?
+    private var currentDuration: Int?
+    private var currentInstruments: [String]?
+    private var currentGenreBlend: String?
+    private var currentEnergy: String?
+    private var currentStructureID: Int?
+    private var currentBPM: Int?
+    private var currentKeyRoot: String?
+    private var currentKeyQuality: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
@@ -105,14 +116,11 @@ class GeneratorViewController: BaseViewController {
                 guard let model = self.viewModel?.byPromptResponse else { return }
 
                 DispatchQueue.main.async {
-//                    self.activityIndicator.startAnimating()
-//                    self.view.isUserInteractionEnabled = false
+                    self.showSuccessAlert(message: "You have successfully passed the generation stage, and access to the recording will be available in the History section within the next five minutes.")
                 }
-                self.viewModel?.getMusic(by: model.id)
 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//                    self.viewModel?.fetchGenerationStatus(userId: userID, jobId: jobID)
-                }
+                self.viewModel?.startPollingForGeneratedTrack(by: model.id)
+
             } else {
                 DispatchQueue.main.async {
                     self.showBadAlert(message: "Write the text that you want to generate, without which it is impossible to continue.")
@@ -120,17 +128,8 @@ class GeneratorViewController: BaseViewController {
             }
         }.store(in: &cancellables)
 
-        self.viewModel?.fetchGenerationSuccessSubject.sink { success in
-            if success {
-                guard let model = self.viewModel?.fetchGenerationModel else { return }
-
-                DispatchQueue.main.async {
-                    self.showSuccessAlert(message: "You have successfully passed the generation stage, and access to the recording will be available in the History section within the next five minutes.")
-                }
-
-            } else {
-                print("######ERROOORRRR#########")
-            }
+        self.viewModel?.getMusicSuccessSubject.sink { model in
+            print(model)
         }.store(in: &cancellables)
     }
 
@@ -170,7 +169,79 @@ extension GeneratorViewController {
     }
 
     @objc func generateAdvancedMusic() {
-        
+        guard let navigationController = self.navigationController else { return }
+
+        guard let genre = self.currentGenre else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let subGenre = self.currentSubGenre else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let duration = self.currentDuration else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let instruments = self.currentInstruments else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let genryBlends = self.currentGenreBlend else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let energy = self.currentEnergy else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let structureID = self.currentStructureID else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let tempo = self.currentBPM else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let keyRoot = self.currentKeyRoot else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let keyQuality = self.currentKeyQuality else {
+            self.showBadAlert(message: "Please check all the fields again and fill in all of them so that we can perform the generation.")
+            return
+        }
+
+        guard let userID = self.viewModel?.userID else {
+            return
+        }
+
+        let bundle = Bundle.main.bundleIdentifier ?? ""
+
+        let model = AdvancedSendModel(userID: userID,
+                                      appBundle: bundle,
+                                      genre: genre,
+                                      subGenre: subGenre,
+                                      duration: duration,
+                                      instruments: instruments,
+                                      genreBlend: genryBlends,
+                                      energy: energy,
+                                      structureID: structureID,
+                                      bpm: tempo,
+                                      keyRoot: keyRoot,
+                                      keyQuality: keyQuality)
+
+        GeneratorRouter.showCreateViewController(in: navigationController,
+                                                 navigationModel: model)
     }
 
     @objc func byPromptTapped() {
@@ -286,6 +357,10 @@ extension GeneratorViewController {
                 cell.configure(with: models[currentSubgenreIndex].subGenres)
             }
 
+            cell.currentSubGenreSubject.sink { [weak self] subGenre in
+                self?.currentSubGenre = subGenre
+            }.store(in: &cell.cancellables)
+
             return cell
         case .duration:
             let cell: DurationCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -294,12 +369,20 @@ extension GeneratorViewController {
                 self?.removeCell(type)
             }.store(in: &cell.cancellables)
 
+            cell.valueChanged.sink { [weak self] seconds in
+                self?.currentDuration = seconds
+            }.store(in: &cell.cancellables)
+
             return cell
         case .instruments:
             let cell: InstrumentsCell = collectionView.dequeueReusableCell(for: indexPath)
 
             cell.deleteTapped.sink { [weak self] index in
                 self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
+            cell.currentArraySubject.sink { [weak self] array in
+                self?.currentInstruments = array
             }.store(in: &cell.cancellables)
 
             return cell
@@ -314,12 +397,20 @@ extension GeneratorViewController {
                 self?.removeCell(type)
             }.store(in: &cell.cancellables)
 
+            cell.currentGenreBlendsSubject.sink { [weak self] genreBlends in
+                self?.currentGenreBlend = genreBlends.title
+            }.store(in: &cell.cancellables)
+
             return cell
         case .energy:
             let cell: EnergyCell = collectionView.dequeueReusableCell(for: indexPath)
 
             cell.deleteTapped.sink { [weak self] index in
                 self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
+            cell.currentEnergySubject.sink { [weak self] energy in
+                self?.currentEnergy = energy
             }.store(in: &cell.cancellables)
 
             return cell
@@ -330,6 +421,10 @@ extension GeneratorViewController {
                 self?.removeCell(type)
             }.store(in: &cell.cancellables)
 
+            cell.currentStructureSubject.sink { [weak self] structureIndex in
+                self?.currentStructureID = structureIndex
+            }.store(in: &cell.cancellables)
+
             return cell
         case .tempo:
             let cell: TempoCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -338,12 +433,21 @@ extension GeneratorViewController {
                 self?.removeCell(type)
             }.store(in: &cell.cancellables)
 
+            cell.valueChanged.sink { [weak self] value in
+                self?.currentBPM = value
+            }.store(in: &cell.cancellables)
+
             return cell
         case .key:
             let cell: KeyCell = collectionView.dequeueReusableCell(for: indexPath)
 
             cell.deleteTapped.sink { [weak self] index in
                 self?.removeCell(type)
+            }.store(in: &cell.cancellables)
+
+            cell.currentValuesSubject.sink { [weak self] values in
+                self?.currentKeyRoot = values.0
+                self?.currentKeyQuality = values.1
             }.store(in: &cell.cancellables)
 
             return cell
@@ -419,6 +523,13 @@ extension GeneratorViewController: UICollectionViewDataSource, UICollectionViewD
                 self.addCell(from: 0)
 
                 self.collectionView.reloadData()
+
+            }.store(in: &cell.cancellables)
+
+            cell.currentGenreSubject.sink { [weak self] genre in
+                guard let self = self else { return }
+
+                self.currentGenre = genre.title
 
             }.store(in: &cell.cancellables)
 

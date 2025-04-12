@@ -11,6 +11,7 @@ import Combine
 
 public protocol INetworkService {
     func createByPromptRequest(userId: String, appBundle: String, prompt: String) async throws -> ResponseModel
+    func createAdvancedRequest(model: AdvancedSendModel) async throws -> ResponseModel
     func getMusic(by musicID: UUID) -> AnyPublisher<ResponseModel, Error>
 }
 
@@ -30,6 +31,37 @@ public final class NetworkService: INetworkService {
         body["user_id"] = userId
         body["app_bundle"] = appBundle
         body["prompt"] = prompt
+
+        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+        if let jsonString = String(data: data, encoding: .utf8) {
+                print("Ответ от сервера: \(jsonString)")
+            }
+        let result = try JSONDecoder().decode(ResponseModel.self, from: data)
+        return result
+    }
+
+    public func createAdvancedRequest(model: AdvancedSendModel) async throws -> ResponseModel {
+        guard let url = URL(string: "https://backend.codecraftedsolutionss.shop/api/task/advanced") else { throw URLError(.badURL) }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("4cf2e553-c8ad-4331-8ed0-0762aacd09c8", forHTTPHeaderField: "api-token")
+
+        var body: [String: Any] = [:]
+        body["user_id"] = model.userID
+        body["app_bundle"] = model.appBundle
+        body["genre"] = model.genre
+        body["duration"] = model.duration
+        body["instruments"] = model.instruments
+        body["genre_blend"] = model.genreBlend
+        body["energy"] = model.energy
+        body["structure_id"] = model.structureID
+        body["bpm"] = model.bpm
+        body["key_root"] = model.keyRoot
+        body["key_quality"] = model.keyQuality
 
         request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
 

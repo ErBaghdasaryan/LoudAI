@@ -31,6 +31,7 @@ class InstrumentsCell: UICollectionViewCell, IReusableView {
     private var resultArrat: [String] = [] {
         willSet {
             self.countLabel.text = "\(newValue.count)/7"
+            self.currentArraySubject.send(resultArrat)
         }
     }
 
@@ -46,6 +47,8 @@ class InstrumentsCell: UICollectionViewCell, IReusableView {
         .init(imageName: "tonal-percussion", name: "Tonal Percussion"),
         .init(imageName: "guitar", name: "Guittar")
     ]
+
+    public let currentArraySubject = PassthroughSubject<[String], Never>()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
