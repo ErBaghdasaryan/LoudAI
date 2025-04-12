@@ -129,7 +129,16 @@ class GeneratorViewController: BaseViewController {
         }.store(in: &cancellables)
 
         self.viewModel?.getMusicSuccessSubject.sink { model in
-            print(model)
+            
+            let model = SavedMusicModel(genre: "Prompt",
+                                        subGenre: "Generation",
+                                        duration: "automatically defined duration",
+                                        musics: model.items)
+
+            self.viewModel?.addMusic(model)
+            DispatchQueue.main.async {
+                self.showSuccessAlert(message: "Your music is ready, you can see it in the History section..")
+            }
         }.store(in: &cancellables)
     }
 

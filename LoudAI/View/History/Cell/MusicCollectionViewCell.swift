@@ -23,13 +23,7 @@ class MusicCollectionViewCell: UICollectionViewCell, IReusableView {
     var cancellables = Set<AnyCancellable>()
 
     var collectionView: UICollectionView!
-    private var selectedIndex: IndexPath?
-    private var selectedRoot: String?
     private var collectionViewData: [String] = []
-
-    private var selectedQuality = "minor"
-
-    public let currentValuesSubject = PassthroughSubject<(String, String), Never>()
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -80,6 +74,7 @@ class MusicCollectionViewCell: UICollectionViewCell, IReusableView {
         collectionView.register(SubGenreCollectionViewCell.self)
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = true
+        collectionView.isUserInteractionEnabled = false
 
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -158,8 +153,6 @@ extension MusicCollectionViewCell: UICollectionViewDelegateFlowLayout, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: SubGenreCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
 
-        cell.updateSelectionState(isSelected: indexPath == selectedIndex)
-
         cell.setup(with: collectionViewData[indexPath.row])
 
         return cell
@@ -175,22 +168,5 @@ extension MusicCollectionViewCell: UICollectionViewDelegateFlowLayout, UICollect
         let textWidth = text.size(withAttributes: [.font: font]).width
 
         return CGSize(width: textWidth + 16, height: 28)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        if let previousIndex = selectedIndex,
-           let previousCell = collectionView.cellForItem(at: previousIndex) as? SubGenreCollectionViewCell {
-            previousCell.updateSelectionState(isSelected: false)
-        }
-
-        selectedIndex = indexPath
-        selectedRoot = self.collectionViewData[indexPath.row]
-
-        if let newCell = collectionView.cellForItem(at: indexPath) as? SubGenreCollectionViewCell {
-            newCell.updateSelectionState(isSelected: true)
-        }
-
-        self.currentValuesSubject.send((selectedRoot!, self.selectedQuality))
     }
 }

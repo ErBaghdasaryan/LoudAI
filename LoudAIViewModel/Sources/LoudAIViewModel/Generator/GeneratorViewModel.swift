@@ -20,6 +20,8 @@ public protocol IGeneratorViewModel {
 
     var getMusicSuccessSubject: PassthroughSubject<ResponseModel, Never> { get }
     func startPollingForGeneratedTrack(by musicID: UUID)
+
+    func addMusic(_ model: SavedMusicModel)
 }
 
 public class GeneratorViewModel: IGeneratorViewModel {
@@ -101,6 +103,14 @@ public class GeneratorViewModel: IGeneratorViewModel {
             } catch let error {
                 self.createByPromptSuccessSubject.send(false)
             }
+        }
+    }
+
+    public func addMusic(_ model: SavedMusicModel) {
+        do {
+            _ = try self.generatorService.addSavedMusic(model)
+        } catch {
+            print(error)
         }
     }
 }

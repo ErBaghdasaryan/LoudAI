@@ -67,6 +67,14 @@ final class ViewControllerFactory {
         return viewController
     }
 
+    //MARK: Edit
+    static func makeEditViewController(navigationModel: EditNavigationModel) -> EditViewController {
+        let assembler = Assembler(commonAssemblies + [EditAssembly()])
+        let viewController = EditViewController()
+        viewController.viewModel = assembler.resolver.resolve(IEditViewModel.self, argument: navigationModel)
+        return viewController
+    }
+
     //MARK: Settings
     static func makeSettingsViewController() -> SettingsViewController {
         let assembler = Assembler(commonAssemblies + [SettingsAssembly()])

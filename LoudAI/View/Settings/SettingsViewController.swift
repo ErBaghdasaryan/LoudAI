@@ -279,7 +279,7 @@ extension SettingsViewController {
     }
 
     private func shareTapped() {
-        let appStoreURL = URL(string: "https://apps.apple.com/us/app/flux-ai-app/id6743154212")!
+        let appStoreURL = URL(string: "https://apps.apple.com/us/app/loud-ai-app/id6744518487")!
 
         let activityViewController = UIActivityViewController(activityItems: [appStoreURL], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
