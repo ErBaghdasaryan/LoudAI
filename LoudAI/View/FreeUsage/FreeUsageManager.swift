@@ -1,6 +1,6 @@
 //
-//  FreeUsageService.swift
-//  LoudAIViewModel
+//  FreeUsageManager.swift
+//  LoudAI
 //
 //  Created by Er Baghdasaryan on 14.04.25.
 //

@@ -53,7 +53,7 @@ public class GeneratorViewModel: IGeneratorViewModel {
 
     public init(generatorService: IGeneratorService,
                 networkService: INetworkService,
-                appStorageService: IAppStorageService,) {
+                appStorageService: IAppStorageService) {
         self.generatorService = generatorService
         self.networkService = networkService
         self.appStorageService = appStorageService
