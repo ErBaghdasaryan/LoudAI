@@ -9,6 +9,7 @@ import UIKit
 import LoudAIViewModel
 import SnapKit
 import StoreKit
+import ApphudSDK
 
 class SettingsViewController: BaseViewController {
 
@@ -54,6 +55,8 @@ class SettingsViewController: BaseViewController {
         super.setupViewModel()
         self.viewModel?.loadData()
         self.collectionView.reloadData()
+
+        self.setupNavigationItems()
     }
 
     func setupConstraints() {
@@ -89,7 +92,10 @@ extension SettingsViewController {
         let proButton = UIBarButtonItem(customView: button)
         let leftButton = UIBarButtonItem(customView: leftLabel)
         navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = proButton
+
+        if !Apphud.hasActiveSubscription() {
+            navigationItem.rightBarButtonItem = proButton
+        }
     }
 
     @objc func getProSubscription() {
@@ -244,18 +250,18 @@ extension SettingsViewController {
 
     @MainActor
     func restorePurchase(escaping: @escaping(Bool) -> Void) {
-//        Apphud.restorePurchases { subscriptions, _, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                escaping(false)
-//            }
-//            if subscriptions?.first?.isActive() ?? false {
-//                escaping(true)
-//            }
-//            if Apphud.hasActiveSubscription() {
-//                escaping(true)
-//            }
-//        }
+        Apphud.restorePurchases { subscriptions, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+                escaping(false)
+            }
+            if subscriptions?.first?.isActive() ?? false {
+                escaping(true)
+            }
+            if Apphud.hasActiveSubscription() {
+                escaping(true)
+            }
+        }
     }
 
     private func rateTapped() {

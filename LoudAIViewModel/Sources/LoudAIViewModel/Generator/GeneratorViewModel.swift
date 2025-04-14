@@ -15,6 +15,8 @@ public protocol IGeneratorViewModel {
     var userID: String { get set }
     var byPromptResponse: ResponseModel? { get set }
 
+    var timeOutSubject: PassthroughSubject<Void, Never> { get }
+
     var createByPromptSuccessSubject: PassthroughSubject<Bool, Never> { get }
     func createByPromptRequest(userId: String, bundle: String, prompt: String)
 
@@ -31,6 +33,7 @@ public class GeneratorViewModel: IGeneratorViewModel {
     public let appStorageService: IAppStorageService
 
     public var byPromptResponse: ResponseModel?
+    public var timeOutSubject = PassthroughSubject<Void, Never>()
     public var createByPromptSuccessSubject = PassthroughSubject<Bool, Never>()
     public var getMusicSuccessSubject = PassthroughSubject<ResponseModel, Never>()
     var cancellables = Set<AnyCancellable>()
@@ -63,12 +66,26 @@ public class GeneratorViewModel: IGeneratorViewModel {
     public func startPollingForGeneratedTrack(by musicID: UUID) {
         guard !isPolling else { return }
         isPolling = true
-
+        
+        var elapsedTime: TimeInterval = 0
+        let pollingInterval: TimeInterval = 25
+        let timeout: TimeInterval = 360
         pollingCancellable = Timer
-            .publish(every: 25.0, on: .main, in: .common)
+            .publish(every: pollingInterval, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                self?.getMusicsRequest(by: musicID)
+                guard let self = self else { return }
+
+                elapsedTime += pollingInterval
+
+                if elapsedTime >= timeout {
+                    self.timeOutSubject.send()
+                    self.pollingCancellable?.cancel()
+                    self.isPolling = false
+                    return
+                }
+                
+                self.getMusicsRequest(by: musicID)
             }
     }
 

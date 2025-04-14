@@ -10,6 +10,7 @@ import LoudAIViewModel
 import SnapKit
 import StoreKit
 import LoudAIModel
+import ApphudSDK
 
 class HistoryViewController: BaseViewController {
 
@@ -25,6 +26,8 @@ class HistoryViewController: BaseViewController {
         super.viewWillAppear(animated)
         self.viewModel?.loadMusics()
         self.collectionView.reloadData()
+
+        self.setupNavigationItems()
     }
 
     override func setupUI() {
@@ -105,7 +108,10 @@ extension HistoryViewController {
         let leftButton = UIBarButtonItem(customView: leftLabel)
 
         navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = proButton
+
+        if !Apphud.hasActiveSubscription() {
+            navigationItem.rightBarButtonItem = proButton
+        }
     }
     
     @objc func getProSubscription() {

@@ -8,7 +8,7 @@
 import UIKit
 import LoudAIViewModel
 import SnapKit
-//import ApphudSDK
+import ApphudSDK
 
 class NotificationViewController: BaseViewController {
 
@@ -182,18 +182,18 @@ extension NotificationViewController {
 
     @MainActor
     public func restorePurchase(escaping: @escaping(Bool) -> Void) {
-//        Apphud.restorePurchases { subscriptions, _, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                escaping(false)
-//            }
-//            if subscriptions?.first?.isActive() ?? false {
-//                escaping(true)
-//            }
-//            if Apphud.hasActiveSubscription() {
-//                escaping(true)
-//            }
-//        }
+        Apphud.restorePurchases { subscriptions, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+                escaping(false)
+            }
+            if subscriptions?.first?.isActive() ?? false {
+                escaping(true)
+            }
+            if Apphud.hasActiveSubscription() {
+                escaping(true)
+            }
+        }
     }
 
     @objc func termsTapped() {

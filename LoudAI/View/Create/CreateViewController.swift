@@ -9,6 +9,7 @@ import LoudAIViewModel
 import SnapKit
 import StoreKit
 import LoudAIModel
+import ApphudSDK
 
 class CreateViewController: BaseViewController {
 
@@ -29,11 +30,24 @@ class CreateViewController: BaseViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        guard let navigationController = self.navigationController else { return }
         super.viewWillAppear(animated)
 
         guard let model = self.viewModel?.model else { return }
 
-        self.viewModel?.createAdvancedRequest(model: model)
+        let currentAvailableUsagesCount = FreeUsageManager.shared.getFreeUsageCount()
+
+        if currentAvailableUsagesCount == 0 {
+            if Apphud.hasActiveSubscription() {
+                self.viewModel?.createAdvancedRequest(model: model)
+            } else {
+                CreateRouter.showPaymentViewController(in: navigationController)
+            }
+        } else {
+            self.viewModel?.createAdvancedRequest(model: model)
+        }
+
+        self.setupNavigationItems()
     }
 
     override func setupUI() {
@@ -105,9 +119,17 @@ class CreateViewController: BaseViewController {
                 self.showSuccessAlert(message: "Your music is ready, you can see it in the History section..")
             }
 
+            FreeUsageManager.shared.decrementFreeUsage()
+
             guard let navigationController = self.navigationController else { return }
             CreateRouter.popViewController(in: navigationController)
 
+        }.store(in: &cancellables)
+
+        self.viewModel?.timeOutSubject.sink { success in
+            DispatchQueue.main.async {
+                self.showBadAlert(message: "There is a problem, please try again.")
+            }
         }.store(in: &cancellables)
     }
 
@@ -171,7 +193,11 @@ extension CreateViewController {
         let leftButton = UIBarButtonItem(customView: leftLabel)
 
         navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = proButton
+
+        if !Apphud.hasActiveSubscription() {
+            navigationItem.rightBarButtonItem = proButton
+        }
+
     }
 
     @objc func getProSubscription() {

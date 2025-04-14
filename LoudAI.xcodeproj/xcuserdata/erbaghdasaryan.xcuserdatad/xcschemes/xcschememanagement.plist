@@ -9,6 +9,39 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>SQLite (Playground).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
+		<key>Sample-iOS (Playground).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>SnapKitPlayground (Playground).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>CC6D88F72D887C0F005B2A0F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC6D890D2D887C11005B2A0F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC6D89172D887C11005B2A0F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

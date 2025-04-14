@@ -10,6 +10,7 @@ import LoudAIViewModel
 import LoudAIModel
 import SnapKit
 import StoreKit
+import ApphudSDK
 
 class GeneratorViewController: BaseViewController {
 
@@ -40,6 +41,11 @@ class GeneratorViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupNavigationItems()
     }
 
     override func setupUI() {
@@ -111,6 +117,12 @@ class GeneratorViewController: BaseViewController {
 
         self.viewModel?.loadGenres()
 
+        self.viewModel?.timeOutSubject.sink { success in
+            DispatchQueue.main.async {
+                self.showBadAlert(message: "There is a problem, please try again.")
+            }
+        }.store(in: &cancellables)
+
         self.viewModel?.createByPromptSuccessSubject.sink { success in
             if success {
                 guard let model = self.viewModel?.byPromptResponse else { return }
@@ -129,7 +141,7 @@ class GeneratorViewController: BaseViewController {
         }.store(in: &cancellables)
 
         self.viewModel?.getMusicSuccessSubject.sink { model in
-            
+
             let model = SavedMusicModel(genre: "Prompt",
                                         subGenre: "Generation",
                                         duration: "automatically defined duration",
@@ -139,6 +151,7 @@ class GeneratorViewController: BaseViewController {
             DispatchQueue.main.async {
                 self.showSuccessAlert(message: "Your music is ready, you can see it in the History section..")
             }
+            FreeUsageManager.shared.decrementFreeUsage()
         }.store(in: &cancellables)
     }
 
@@ -254,6 +267,7 @@ extension GeneratorViewController {
     }
 
     @objc func byPromptTapped() {
+        guard let navigationController = self.navigationController else { return }
         guard !self.promtView.getText().isEmpty else {
             self.showBadAlert(message: "Write the text that you want to generate, without which it is impossible to continue.")
             return
@@ -266,9 +280,21 @@ extension GeneratorViewController {
 
         let bundle = Bundle.main.bundleIdentifier ?? ""
 
-        self.viewModel?.createByPromptRequest(userId: userID,
-                                              bundle: bundle,
-                                              prompt: prompt)
+        let currentAvailableUsagesCount = FreeUsageManager.shared.getFreeUsageCount()
+
+        if currentAvailableUsagesCount == 0 {
+            if Apphud.hasActiveSubscription() {
+                self.viewModel?.createByPromptRequest(userId: userID,
+                                                      bundle: bundle,
+                                                      prompt: prompt)
+            } else {
+                GeneratorRouter.showPaymentViewController(in: navigationController)
+            }
+        } else {
+            self.viewModel?.createByPromptRequest(userId: userID,
+                                                  bundle: bundle,
+                                                  prompt: prompt)
+        }
     }
 
     @objc func segmentChanged(_ sender: UISegmentedControl) {
@@ -297,7 +323,10 @@ extension GeneratorViewController {
         let leftButton = UIBarButtonItem(customView: leftLabel)
 
         navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = proButton
+
+        if !Apphud.hasActiveSubscription() {
+            navigationItem.rightBarButtonItem = proButton
+        }
     }
 
     @objc func getProSubscription() {

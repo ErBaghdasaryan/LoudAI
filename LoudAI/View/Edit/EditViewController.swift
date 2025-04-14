@@ -10,6 +10,7 @@ import LoudAIViewModel
 import SnapKit
 import StoreKit
 import LoudAIModel
+import ApphudSDK
 
 class EditViewController: BaseViewController {
 
@@ -48,6 +49,16 @@ class EditViewController: BaseViewController {
         }
         self.collectionViewData = model.model.musics
 
+        self.setupNavigationItems()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        for cell in collectionView.visibleCells {
+            if let songCell = cell as? SongCollectionViewCell {
+                songCell.stopPlaybackIfNeeded()
+            }
+        }
     }
 
     override func setupUI() {
@@ -210,8 +221,11 @@ extension EditViewController {
                             font:  UIFont(name: "SFProText-Bold", size: 24))
 
         navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = proButton
         navigationItem.titleView = title
+
+        if !Apphud.hasActiveSubscription() {
+            navigationItem.rightBarButtonItem = proButton
+        }
     }
 
     @objc func getProSubscription() {

@@ -39,6 +39,7 @@
 		CC6D89182D887C11005B2A0F /* LoudAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoudAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC6D892C2D887D2F005B2A0F /* LoudAIViewModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoudAIViewModel; sourceTree = "<group>"; };
 		CC6D892D2D887D41005B2A0F /* LoudAIModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoudAIModel; sourceTree = "<group>"; };
+		CCCFC3262DAD343E001541B2 /* LoudAI_Purchase.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = LoudAI_Purchase.storekit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -107,6 +108,7 @@
 		CC6D88EF2D887C0F005B2A0F = {
 			isa = PBXGroup;
 			children = (
+				CCCFC3262DAD343E001541B2 /* LoudAI_Purchase.storekit */,
 				CC6D892D2D887D41005B2A0F /* LoudAIModel */,
 				CC6D892C2D887D2F005B2A0F /* LoudAIViewModel */,
 				CC6D88FA2D887C0F005B2A0F /* LoudAI */,

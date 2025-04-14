@@ -8,7 +8,7 @@
 import UIKit
 import LoudAIViewModel
 import SnapKit
-//import ApphudSDK
+import ApphudSDK
 
 class PaymentViewController: BaseViewController {
 
@@ -41,14 +41,16 @@ class PaymentViewController: BaseViewController {
     private let yearlyButton = PaymentButton(isAnnual: .yearly)
     private let weeklyButton = PaymentButton(isAnnual: .weekly)
 
-//    private var currentProduct: ApphudProduct?
-//    public let paywallID = "main"
-//    public var productsAppHud: [ApphudProduct] = []
+    private var paymenButtons: UIStackView!
+
+    private var currentProduct: ApphudProduct?
+    public let paywallID = "main"
+    public var productsAppHud: [ApphudProduct] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
-//        self.loadPaywalls()
+        self.loadPaywalls()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -114,15 +116,18 @@ class PaymentViewController: BaseViewController {
 
         self.cancele.isHidden = true
 
+        self.paymenButtons = UIStackView(arrangedSubviews: [weeklyButton, yearlyButton],
+                                        axis: .horizontal,
+                                        spacing: 17)
+        self.paymenButtons.distribution = .fillEqually
+
         self.view.addSubview(background)
         self.view.addSubview(bottomView)
         self.view.addSubview(afterBottom)
         self.view.addSubview(cancele)
         self.view.addSubview(header)
         self.view.addSubview(subheader)
-        self.view.addSubview(yearlyButton)
-        self.view.addSubview(yearlyButton)
-        self.view.addSubview(weeklyButton)
+        self.view.addSubview(paymenButtons)
         self.view.addSubview(continueButton)
         self.view.addSubview(maybeLater)
         self.view.addSubview(buttonsStack)
@@ -139,14 +144,14 @@ class PaymentViewController: BaseViewController {
             view.bottom.equalToSuperview()
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
-            view.height.equalTo(445)
+            view.height.equalTo(406)
         }
 
         afterBottom.snp.makeConstraints { view in
             view.bottom.equalToSuperview()
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
-            view.height.equalTo(445)
+            view.height.equalTo(406)
         }
 
         cancele.snp.makeConstraints { view in
@@ -170,18 +175,11 @@ class PaymentViewController: BaseViewController {
             view.height.equalTo(18)
         }
 
-        yearlyButton.snp.makeConstraints { view in
-            view.top.equalTo(subheader.snp.bottom).offset(29)
+        paymenButtons.snp.makeConstraints { view in
+            view.top.equalTo(subheader.snp.bottom).offset(16)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(68)
-        }
-
-        weeklyButton.snp.makeConstraints { view in
-            view.top.equalTo(yearlyButton.snp.bottom).offset(12)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(68)
+            view.height.equalTo(122)
         }
 
         continueButton.snp.makeConstraints { view in
@@ -226,11 +224,11 @@ extension PaymentViewController {
         case yearlyButton:
             self.yearlyButton.isSelectedState = true
             self.weeklyButton.isSelectedState = false
-//            self.currentProduct = self.productsAppHud[2]
+            self.currentProduct = self.productsAppHud[1]
         case weeklyButton:
             self.yearlyButton.isSelectedState = false
             self.weeklyButton.isSelectedState = true
-//            self.currentProduct = self.productsAppHud[1]
+            self.currentProduct = self.productsAppHud.first
         default:
             break
         }
@@ -265,103 +263,103 @@ extension PaymentViewController {
     }
 
     @objc func continueButtonTaped() {
-//        if let navigationController = self.navigationController {
-//            guard let currentProduct = self.currentProduct else { return }
-//
-//            startPurchase(product: currentProduct) { result in
-//                let viewControllers = navigationController.viewControllers
-//
-//                if let currentIndex = viewControllers.firstIndex(of: self), currentIndex > 0 {
-//                    let previousViewController = viewControllers[currentIndex - 1]
-//
-//                    if previousViewController is NotificationViewController {
-//                        PaymentRouter.showTabBarViewController(in: navigationController)
-//                    } else {
-//                        navigationController.navigationBar.isHidden = false
-//                        navigationController.navigationItem.hidesBackButton = false
-//                        navigationController.popViewController(animated: true)
-//                    }
-//                }
-//            }
-//        }
+        if let navigationController = self.navigationController {
+            guard let currentProduct = self.currentProduct else { return }
+
+            startPurchase(product: currentProduct) { result in
+                let viewControllers = navigationController.viewControllers
+
+                if let currentIndex = viewControllers.firstIndex(of: self), currentIndex > 0 {
+                    let previousViewController = viewControllers[currentIndex - 1]
+
+                    if previousViewController is NotificationViewController {
+                        PaymentRouter.showTabBarViewController(in: navigationController)
+                    } else {
+                        navigationController.navigationBar.isHidden = false
+                        navigationController.navigationItem.hidesBackButton = false
+                        navigationController.popViewController(animated: true)
+                    }
+                }
+            }
+        }
     }
 
     @objc func restoreTapped() {
-//        guard let navigationController = self.navigationController else { return }
-//        self.restorePurchase { result in
-//            if result {
-//                self.showSuccessAlert(message: "You have successfully restored your purchases.")
-//            } else {
-//                self.showBadAlert(message: "Your purchase could not be restored. Please try again later.")
-//            }
-//        }
-//
-//        let viewControllers = navigationController.viewControllers
-//
-//        if let currentIndex = viewControllers.firstIndex(of: self), currentIndex > 0 {
-//            let previousViewController = viewControllers[currentIndex - 1]
-//
-//            if previousViewController is NotificationViewController {
-//                PaymentRouter.showTabBarViewController(in: navigationController)
-//            } else {
-//                navigationController.navigationBar.isHidden = false
-//                navigationController.navigationItem.hidesBackButton = false
-//                navigationController.popViewController(animated: true)
-//            }
-//        }
+        guard let navigationController = self.navigationController else { return }
+        self.restorePurchase { result in
+            if result {
+                self.showSuccessAlert(message: "You have successfully restored your purchases.")
+            } else {
+                self.showBadAlert(message: "Your purchase could not be restored. Please try again later.")
+            }
+        }
+
+        let viewControllers = navigationController.viewControllers
+
+        if let currentIndex = viewControllers.firstIndex(of: self), currentIndex > 0 {
+            let previousViewController = viewControllers[currentIndex - 1]
+
+            if previousViewController is NotificationViewController {
+                PaymentRouter.showTabBarViewController(in: navigationController)
+            } else {
+                navigationController.navigationBar.isHidden = false
+                navigationController.navigationItem.hidesBackButton = false
+                navigationController.popViewController(animated: true)
+            }
+        }
     }
 
-//    @MainActor
-//    public func startPurchase(product: ApphudProduct, escaping: @escaping(Bool) -> Void) {
-//        let selectedProduct = product
-//        Apphud.purchase(selectedProduct) { result in
-//            if let error = result.error {
-//                print(error.localizedDescription)
-//                escaping(false)
-//            }
-//
-//            if let subscription = result.subscription, subscription.isActive() {
-//                escaping(true)
-//            } else if let purchase = result.nonRenewingPurchase, purchase.isActive() {
-//                escaping(true)
-//            } else {
-//                if Apphud.hasActiveSubscription() {
-//                    escaping(true)
-//                }
-//            }
-//        }
-//    }
+    @MainActor
+    public func startPurchase(product: ApphudProduct, escaping: @escaping(Bool) -> Void) {
+        let selectedProduct = product
+        Apphud.purchase(selectedProduct) { result in
+            if let error = result.error {
+                print(error.localizedDescription)
+                escaping(false)
+            }
 
-//    @MainActor
-//    public func restorePurchase(escaping: @escaping(Bool) -> Void) {
-//        Apphud.restorePurchases { subscriptions, _, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                escaping(false)
-//            }
-//            if subscriptions?.first?.isActive() ?? false {
-//                escaping(true)
-//            }
-//            if Apphud.hasActiveSubscription() {
-//                escaping(true)
-//            }
-//        }
-//    }
+            if let subscription = result.subscription, subscription.isActive() {
+                escaping(true)
+            } else if let purchase = result.nonRenewingPurchase, purchase.isActive() {
+                escaping(true)
+            } else {
+                if Apphud.hasActiveSubscription() {
+                    escaping(true)
+                }
+            }
+        }
+    }
 
-//    @MainActor
-//    public func loadPaywalls() {
-//        Apphud.paywallsDidLoadCallback { paywalls, error in
-//            if let error = error {
-//                print("Ошибка загрузки paywalls: \(error.localizedDescription)")
-//            } else if let paywall = paywalls.first(where: { $0.identifier == self.paywallID }) {
-//                Apphud.paywallShown(paywall)
-//                self.productsAppHud = paywall.products
-//                print("Продукты успешно загружены: \(self.productsAppHud)")
-//            } else {
-//                print("Paywall с идентификатором \(self.paywallID) не найден.")
-//            }
-//        }
-//    }
+    @MainActor
+    public func restorePurchase(escaping: @escaping(Bool) -> Void) {
+        Apphud.restorePurchases { subscriptions, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+                escaping(false)
+            }
+            if subscriptions?.first?.isActive() ?? false {
+                escaping(true)
+            }
+            if Apphud.hasActiveSubscription() {
+                escaping(true)
+            }
+        }
+    }
+
+    @MainActor
+    public func loadPaywalls() {
+        Apphud.paywallsDidLoadCallback { paywalls, error in
+            if let error = error {
+                print("Ошибка загрузки paywalls: \(error.localizedDescription)")
+            } else if let paywall = paywalls.first(where: { $0.identifier == self.paywallID }) {
+                Apphud.paywallShown(paywall)
+                self.productsAppHud = paywall.products
+                print("Продукты успешно загружены: \(self.productsAppHud)")
+            } else {
+                print("Paywall с идентификатором \(self.paywallID) не найден.")
+            }
+        }
+    }
 }
 
 extension PaymentViewController: IViewModelableController {

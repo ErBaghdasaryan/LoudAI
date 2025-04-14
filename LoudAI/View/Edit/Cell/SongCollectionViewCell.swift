@@ -172,6 +172,12 @@ class SongCollectionViewCell: UICollectionViewCell, IReusableView {
         self.musicURL = model.musicURL
     }
 
+    func stopPlaybackIfNeeded() {
+        if songState == .playing || songState == .resumed {
+            songState = .stopped
+        }
+    }
+
     @objc private func playButtonTapped() {
         switch songState {
         case .stopped:

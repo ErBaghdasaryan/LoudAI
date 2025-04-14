@@ -11,16 +11,17 @@ import LoudAIModel
 final class PaymentButton: UIButton {
     private let title = UILabel(text: "",
                                 textColor: .white,
-                                font: UIFont(name: "SFProText-Bold", size: 24))
-    private let tokensCount = UILabel(text: "",
+                                font: UIFont(name: "SFProText-Bold", size: 18))
+    private let count = UILabel(text: "",
                                       textColor: UIColor.white,
-                                      font: UIFont(name: "SFProText-Regular", size: 14))
-    private let saveLabel = UILabel(text: "Save 50%",
+                                      font: UIFont(name: "SFProText-Regular", size: 12))
+    private let saveLabel = UILabel(text: "Save 60%",
                                     textColor: .white,
                                     font: UIFont(name: "SFProText-Regular", size: 12))
-    private let perWeek = UILabel(text: "",
-                                  textColor: .white,
-                                  font: UIFont(name: "SFProText-Semibold", size: 18))
+    private let whiteLine = UIView()
+    private let perDuration = UILabel(text: "",
+                                      textColor: .white.withAlphaComponent(0.7),
+                                      font: UIFont(name: "SFProText-Semibold", size: 12))
     var isSelectedState: Bool {
         didSet {
             self.updateBorder()
@@ -50,65 +51,100 @@ final class PaymentButton: UIButton {
 
         self.backgroundColor = UIColor.gray.withAlphaComponent(0.07)
 
-        self.layer.cornerRadius = 20
-
-        self.title.textAlignment = .left
-        self.perWeek.textAlignment = .right
+        self.layer.cornerRadius = 12
 
         self.saveLabel.layer.masksToBounds = true
         self.saveLabel.layer.cornerRadius = 12
-        self.saveLabel.backgroundColor = UIColor(hex: "#FF4E4E")
+        self.saveLabel.backgroundColor = UIColor(hex: "#4C19DE")
 
-        self.saveLabel.layer.zPosition = 1
+        self.whiteLine.backgroundColor = .white
 
         switch self.isAnnual {
         case .yearly:
-            self.title.text = "Yearly"
-            self.tokensCount.text = "( 1200 tokens )"
-            self.perWeek.text = "6 300 ₽ "
+            self.title.text = "Year"
+            self.count.text = "Then 49.99 $"
+            self.perDuration.text = "4.16 $ / Month"
             self.addSubview(saveLabel)
         case .weekly:
-            self.title.text = "1 Weekly"
-            self.tokensCount.text = "( 100 tokens )"
-            self.perWeek.text = "1 300 ₽ "
+            self.title.text = "Week"
+            self.count.text = "Then 0.99 $"
+            self.perDuration.text = "0.99 $ / Day"
             break
         }
 
         self.isSelectedState = false
 
         addSubview(title)
-        addSubview(perWeek)
-        addSubview(tokensCount)
+        addSubview(count)
+        addSubview(whiteLine)
+        addSubview(perDuration)
         setupConstraints()
     }
 
     private func setupConstraints() {
-
-        title.snp.makeConstraints { view in
-            view.top.equalToSuperview().offset(12)
-            view.leading.equalToSuperview().offset(12)
-            view.height.equalTo(26)
-        }
-
-        perWeek.snp.makeConstraints { view in
-            view.top.equalToSuperview().offset(24)
-            view.trailing.equalToSuperview().inset(12)
-            view.height.equalTo(18)
-        }
-
-        tokensCount.snp.makeConstraints { view in
-            view.top.equalTo(title.snp.bottom).offset(4)
-            view.leading.equalToSuperview().offset(12)
-            view.height.equalTo(14)
-        }
-
         switch self.isAnnual {
         case .yearly:
             saveLabel.snp.makeConstraints { view in
-                view.top.equalToSuperview().offset(-10)
-                view.trailing.equalToSuperview().inset(11.5)
-                view.height.equalTo(22)
-                view.width.equalTo(70)
+                view.top.equalToSuperview().offset(12)
+                view.centerX.equalToSuperview()
+                view.width.equalTo(85)
+                view.height.equalTo(27)
+            }
+
+            title.snp.makeConstraints { view in
+                view.top.equalTo(saveLabel.snp.bottom).offset(8)
+                view.leading.equalToSuperview().offset(12)
+                view.trailing.equalToSuperview().inset(12)
+                view.height.equalTo(14)
+            }
+
+            count.snp.makeConstraints { view in
+                view.top.equalTo(title.snp.bottom).offset(4)
+                view.trailing.equalToSuperview().inset(12)
+                view.leading.equalToSuperview().offset(12)
+                view.height.equalTo(14)
+            }
+
+            whiteLine.snp.makeConstraints { view in
+                view.top.equalTo(count.snp.bottom).offset(8)
+                view.trailing.equalToSuperview().inset(44)
+                view.leading.equalToSuperview().offset(44)
+                view.height.equalTo(1)
+            }
+
+            perDuration.snp.makeConstraints { view in
+                view.top.equalTo(whiteLine.snp.bottom).offset(8)
+                view.leading.equalToSuperview().offset(12)
+                view.trailing.equalToSuperview().inset(12)
+                view.height.equalTo(14)
+            }
+        case .weekly:
+            title.snp.makeConstraints { view in
+                view.top.equalToSuperview().offset(28)
+                view.leading.equalToSuperview().offset(12)
+                view.trailing.equalToSuperview().inset(12)
+                view.height.equalTo(14)
+            }
+
+            count.snp.makeConstraints { view in
+                view.top.equalTo(title.snp.bottom).offset(4)
+                view.trailing.equalToSuperview().inset(12)
+                view.leading.equalToSuperview().offset(12)
+                view.height.equalTo(14)
+            }
+
+            whiteLine.snp.makeConstraints { view in
+                view.top.equalTo(count.snp.bottom).offset(8)
+                view.trailing.equalToSuperview().inset(44)
+                view.leading.equalToSuperview().offset(44)
+                view.height.equalTo(1)
+            }
+
+            perDuration.snp.makeConstraints { view in
+                view.top.equalTo(whiteLine.snp.bottom).offset(8)
+                view.leading.equalToSuperview().offset(12)
+                view.trailing.equalToSuperview().inset(12)
+                view.height.equalTo(14)
             }
         default:
             break
