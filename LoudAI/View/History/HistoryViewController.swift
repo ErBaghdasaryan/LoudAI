@@ -117,6 +117,12 @@ extension HistoryViewController {
         HistoryRouter.showPaymentViewController(in: navigationController)
         //        }
     }
+
+    private func deleteMusic(for index: Int) {
+        self.viewModel?.deleteMusic(at: index)
+        self.viewModel?.loadMusics()
+        self.collectionView.reloadData()
+    }
 }
 
 extension HistoryViewController: IViewModelableController {
@@ -147,6 +153,13 @@ extension HistoryViewController: UICollectionViewDataSource, UICollectionViewDel
                                title: "\(model.genre) + \(model.subGenre)",
                                data: [model.genre, model.subGenre, model.duration])
             }
+
+            cell.deleteTapped.sink { [weak self] _ in
+                if let model = self?.viewModel?.savedMusics[indexPath.row] {
+                    self?.deleteMusic(for: model.id!)
+                }
+            }.store(in: &cell.cancellables)
+
             return cell
         }
     }

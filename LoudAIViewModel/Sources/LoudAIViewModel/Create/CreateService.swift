@@ -12,6 +12,7 @@ import SQLite
 public protocol ICreateService {
     func addSavedMusic(_ model: SavedMusicModel) throws -> SavedMusicModel
     func getAllSavedMusics() throws -> [SavedMusicModel]
+    func deleteSavedMusic(by id: Int) throws
 }
 
 public class CreateService: ICreateService {
@@ -83,6 +84,15 @@ public class CreateService: ICreateService {
         }
 
         return result
+    }
+
+    public func deleteSavedMusic(by id: Int) throws {
+        let db = try Connection("\(path)/db.sqlite3")
+        let table = Table("SavedMusic")
+        let idColumn = Expression<Int>("id")
+
+        let itemToDelete = table.filter(idColumn == id)
+        try db.run(itemToDelete.delete())
     }
 
 }
