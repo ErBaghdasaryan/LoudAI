@@ -17,7 +17,7 @@ class TempoCell: UICollectionViewCell, IReusableView {
 
     private let slider = UISlider()
 
-    private let durationLabel =  UILabel(text: "0 BPM",
+    private let durationLabel =  UILabel(text: "60 BPM",
                                          textColor: .white,
                                          font: UIFont(name: "SFProText-Regular", size: 14))
 
@@ -52,7 +52,7 @@ class TempoCell: UICollectionViewCell, IReusableView {
         backgroundColor = UIColor(hex: "#1E1E1E")?.withAlphaComponent(0.7)
         layer.cornerRadius = 16
 
-        slider.minimumValue = 0
+        slider.minimumValue = 60
         slider.maximumValue = 200
         slider.value = 0
         let smallThumb = UIImage(named: "circleImage")?.resizeImage(to: CGSize(width: 12, height: 12))

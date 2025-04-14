@@ -189,6 +189,8 @@ class InstrumentsCell: UICollectionViewCell, IReusableView {
                 cell.resetCount()
             }
         }
+
+        currentArraySubject.send(self.resultArrat)
     }
 }
 
@@ -209,6 +211,7 @@ extension InstrumentsCell: UICollectionViewDataSource, UICollectionViewDelegateF
             if let index = self.resultArrat.firstIndex(of: model.name.uppercased()) {
                 self.resultArrat.remove(at: index)
             }
+            print(self.resultArrat)
         }.store(in: &cell.cancellables)
         
         cell.sumSubject.sink { _ in

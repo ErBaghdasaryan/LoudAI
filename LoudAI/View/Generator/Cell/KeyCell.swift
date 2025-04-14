@@ -123,10 +123,10 @@ class KeyCell: UICollectionViewCell, IReusableView {
         switch sender.selectedSegmentIndex {
         case 0:
             self.selectedQuality = "minor"
-            self.currentValuesSubject.send((selectedRoot!, self.selectedQuality))
+            self.currentValuesSubject.send((selectedRoot ?? "", self.selectedQuality))
         case 1:
             self.selectedQuality = "major"
-            self.currentValuesSubject.send((selectedRoot!, self.selectedQuality))
+            self.currentValuesSubject.send((selectedRoot ?? "", self.selectedQuality))
         default:
             break
         }

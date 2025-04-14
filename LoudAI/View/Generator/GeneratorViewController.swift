@@ -427,7 +427,9 @@ extension GeneratorViewController {
             }.store(in: &cell.cancellables)
 
             cell.currentArraySubject.sink { [weak self] array in
-                self?.currentInstruments = array
+                if !array.isEmpty {
+                    self?.currentInstruments = array
+                }
             }.store(in: &cell.cancellables)
 
             return cell
@@ -491,7 +493,9 @@ extension GeneratorViewController {
             }.store(in: &cell.cancellables)
 
             cell.currentValuesSubject.sink { [weak self] values in
-                self?.currentKeyRoot = values.0
+                if values.0 != "" {
+                    self?.currentKeyRoot = values.0
+                }
                 self?.currentKeyQuality = values.1
             }.store(in: &cell.cancellables)
 
