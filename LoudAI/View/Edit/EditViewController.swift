@@ -39,8 +39,13 @@ class EditViewController: BaseViewController {
         guard let model = self.viewModel?.model else { return }
 
         self.titleLabel.text = "\(model.model.genre) + \(model.model.subGenre)"
-        self.firstImage.image = UIImage(named: model.model.genre)
-        self.secondImage.image = UIImage(named: model.model.subGenre)
+        if model.model.genre == "Prompt" && model.model.subGenre == "Generation" {
+            self.firstImage.image = UIImage(named: "Ambient")
+            self.secondImage.image = UIImage(named: "Epic Score")
+        } else {
+            self.firstImage.image = UIImage(named: model.model.genre)
+            self.secondImage.image = UIImage(named: model.model.subGenre)
+        }
         self.collectionViewData = model.model.musics
 
     }
@@ -224,6 +229,31 @@ extension EditViewController {
 
         EditRouter.popViewController(in: navigationController)
     }
+
+    func downloadMP3(from urlString: String, musicName: String) {
+        guard let url = URL(string: urlString) else { return }
+
+        let task = URLSession.shared.downloadTask(with: url) { location, response, error in
+            guard let location = location, error == nil else { return }
+
+            do {
+                let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let fileName = "\(musicName).mp3"
+                let destinationURL = documents.appendingPathComponent(fileName)
+
+                try FileManager.default.moveItem(at: location, to: destinationURL)
+
+                DispatchQueue.main.async {
+                    self.showSuccessAlert(message: "The track is saved in '\(fileName)'")
+                }
+            } catch {
+                print("Error saving the file: \(error)")
+            }
+        }
+
+        task.resume()
+    }
+
 }
 
 extension EditViewController: IViewModelableController {
@@ -250,6 +280,24 @@ extension EditViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.collectionView.performBatchUpdates({
                     self.collectionView.deleteItems(at: [indexPath])
                 }, completion: nil)
+        }.store(in: &cell.cancellables)
+
+        cell.downloadTapped.sink { _ in
+            let url = self.collectionViewData[indexPath.row].musicURL
+            let songName = self.collectionViewData[indexPath.row].title
+            let alert = UIAlertController(
+                title: "Upload a track?",
+                message: "Are you sure you want to download this song in MP3 format?",
+                preferredStyle: .alert
+            )
+
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Download", style: .default) { _ in
+                self.downloadMP3(from: url, musicName: songName)
+            })
+
+            self.present(alert, animated: true)
+
         }.store(in: &cell.cancellables)
 
         return cell

@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let appHudUserId = Apphud.userID()
         self.appStorageService.saveData(key: .apphudUserID, value: appHudUserId)
 
+        FreeUsageManager.shared.initializeFreeUsageIfNeeded()
+
         return true
     }
 

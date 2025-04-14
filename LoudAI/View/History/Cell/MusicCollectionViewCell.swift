@@ -132,9 +132,14 @@ class MusicCollectionViewCell: UICollectionViewCell, IReusableView {
         }
     }
 
-    func configure(firstImage: String?, secondImage: String?, title: String, data: [String]) {
-        self.firstImage.image = UIImage(named: firstImage ?? "Ambient")
-        self.secondImage.image = UIImage(named: secondImage ?? "Epic Score")
+    func configure(firstImage: String, secondImage: String, title: String, data: [String]) {
+        if firstImage == "Prompt" && secondImage == "Generation" {
+            self.firstImage.image = UIImage(named: "Ambient")
+            self.secondImage.image = UIImage(named: "Epic Score")
+        } else {
+            self.firstImage.image = UIImage(named: firstImage)
+            self.secondImage.image = UIImage(named: secondImage)
+        }
         self.titleLabel.text = title
         self.collectionViewData = data
         self.collectionView.reloadData()
