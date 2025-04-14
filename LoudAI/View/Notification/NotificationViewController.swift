@@ -9,6 +9,7 @@ import UIKit
 import LoudAIViewModel
 import SnapKit
 import ApphudSDK
+import OneSignalFramework
 
 class NotificationViewController: BaseViewController {
 
@@ -210,16 +211,41 @@ extension NotificationViewController {
 
     @objc func maybeLaterTaped() {
         guard let navigationController = self.navigationController else { return }
-
         NotificationRouter.showPaymentViewController(in: navigationController)
-        self.viewModel?.isEnabled = true
     }
 
     @objc func nextButtonTaped() {
         guard let navigationController = self.navigationController else { return }
 
-        NotificationRouter.showPaymentViewController(in: navigationController)
-        self.viewModel?.isEnabled = true
+        OneSignal.Notifications.requestPermission({ accepted in
+            DispatchQueue.main.async {
+                if accepted {
+                    self.showNTFSuccessAlert(message: "You have successfully enabled your notifications.")
+                } else {
+                    self.showNTFBadAlert(message: "You haven't enabled your notifications!")
+                }
+            }
+        }, fallbackToSettings: true)
+    }
+
+    func showNTFSuccessAlert(message: String) {
+        guard let navigationController = self.navigationController else { return }
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            NotificationRouter.showPaymentViewController(in: navigationController)
+            self.viewModel?.isEnabled = true
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+
+    func showNTFBadAlert(message: String) {
+        guard let navigationController = self.navigationController else { return }
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            NotificationRouter.showPaymentViewController(in: navigationController)
+            self.viewModel?.isEnabled = true
+        }))
+        present(alert, animated: true, completion: nil)
     }
 }
 

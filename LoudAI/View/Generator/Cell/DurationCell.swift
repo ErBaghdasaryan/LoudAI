@@ -17,7 +17,7 @@ class DurationCell: UICollectionViewCell, IReusableView {
 
     private let slider = UISlider()
 
-    private let durationLabel =  UILabel(text: "00:30",
+    private let durationLabel =  UILabel(text: "00:00",
                                          textColor: .white,
                                          font: UIFont(name: "SFProText-Regular", size: 16))
 
@@ -49,7 +49,7 @@ class DurationCell: UICollectionViewCell, IReusableView {
 
         slider.minimumValue = 0
         slider.maximumValue = 270
-        slider.value = 30
+        slider.value = 0
         let smallThumb = UIImage(named: "circleImage")?.resizeImage(to: CGSize(width: 12, height: 12))
         slider.setThumbImage(smallThumb, for: .normal)
         slider.minimumTrackTintColor = UIColor(hex: "#4C19DE")

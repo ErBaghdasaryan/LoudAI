@@ -10,6 +10,7 @@ import ApphudSDK
 import LoudAIViewModel
 import AppTrackingTransparency
 import AdSupport
+import OneSignalFramework
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Apphud.enableDebugLogs()
         Apphud.setDeviceIdentifiers(idfa: nil, idfv: UIDevice.current.identifierForVendor?.uuidString)
         fetchIDFA()
+
+        OneSignal.initialize("a4c98a3a-fa59-404d-a1ab-5364c1beaaf2", withLaunchOptions: launchOptions)
 
         let appHudUserId = Apphud.userID()
         self.appStorageService.saveData(key: .apphudUserID, value: appHudUserId)

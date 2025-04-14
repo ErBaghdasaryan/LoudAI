@@ -14,6 +14,9 @@
 		CC6D893D2D887F87005B2A0F /* SwinjectAutoregistration in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D893C2D887F87005B2A0F /* SwinjectAutoregistration */; };
 		CC6D896F2D88837A005B2A0F /* LoudAIModel in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D896E2D88837A005B2A0F /* LoudAIModel */; };
 		CC6D89712D88837A005B2A0F /* LoudAIViewModel in Frameworks */ = {isa = PBXBuildFile; productRef = CC6D89702D88837A005B2A0F /* LoudAIViewModel */; };
+		CCCFC32E2DAD6625001541B2 /* OneSignalExtension in Frameworks */ = {isa = PBXBuildFile; productRef = CCCFC32D2DAD6625001541B2 /* OneSignalExtension */; };
+		CCCFC3302DAD6625001541B2 /* OneSignalFramework in Frameworks */ = {isa = PBXBuildFile; productRef = CCCFC32F2DAD6625001541B2 /* OneSignalFramework */; };
+		CCCFC3322DAD6625001541B2 /* OneSignalInAppMessages in Frameworks */ = {isa = PBXBuildFile; productRef = CCCFC3312DAD6625001541B2 /* OneSignalInAppMessages */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCCFC3322DAD6625001541B2 /* OneSignalInAppMessages in Frameworks */,
 				CC6D89302D887F58005B2A0F /* SQLite in Frameworks */,
 				CC41A7562DA9601D0026A89E /* ApphudSDK in Frameworks */,
 				CC6D89332D887F6E005B2A0F /* SnapKit in Frameworks */,
@@ -85,6 +89,8 @@
 				CC6D896F2D88837A005B2A0F /* LoudAIModel in Frameworks */,
 				CC6D893D2D887F87005B2A0F /* SwinjectAutoregistration in Frameworks */,
 				CC6D89712D88837A005B2A0F /* LoudAIViewModel in Frameworks */,
+				CCCFC3302DAD6625001541B2 /* OneSignalFramework in Frameworks */,
+				CCCFC32E2DAD6625001541B2 /* OneSignalExtension in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +169,9 @@
 				CC6D896E2D88837A005B2A0F /* LoudAIModel */,
 				CC6D89702D88837A005B2A0F /* LoudAIViewModel */,
 				CC41A7552DA9601D0026A89E /* ApphudSDK */,
+				CCCFC32D2DAD6625001541B2 /* OneSignalExtension */,
+				CCCFC32F2DAD6625001541B2 /* OneSignalFramework */,
+				CCCFC3312DAD6625001541B2 /* OneSignalInAppMessages */,
 			);
 			productName = LoudAI;
 			productReference = CC6D88F82D887C0F005B2A0F /* LoudAI.app */;
@@ -252,6 +261,7 @@
 				CC6D89362D887F7B005B2A0F /* XCRemoteSwiftPackageReference "Swinject" */,
 				CC6D893B2D887F87005B2A0F /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */,
 				CC41A7542DA9601D0026A89E /* XCRemoteSwiftPackageReference "ApphudSDK" */,
+				CCCFC32C2DAD6625001541B2 /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CC6D88F92D887C0F005B2A0F /* Products */;
@@ -664,6 +674,14 @@
 				minimumVersion = 2.9.1;
 			};
 		};
+		CCCFC32C2DAD6625001541B2 /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OneSignal/OneSignal-XCFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.10;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -699,6 +717,21 @@
 		CC6D89702D88837A005B2A0F /* LoudAIViewModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LoudAIViewModel;
+		};
+		CCCFC32D2DAD6625001541B2 /* OneSignalExtension */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCCFC32C2DAD6625001541B2 /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
+			productName = OneSignalExtension;
+		};
+		CCCFC32F2DAD6625001541B2 /* OneSignalFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCCFC32C2DAD6625001541B2 /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
+			productName = OneSignalFramework;
+		};
+		CCCFC3312DAD6625001541B2 /* OneSignalInAppMessages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCCFC32C2DAD6625001541B2 /* XCRemoteSwiftPackageReference "OneSignal-XCFramework" */;
+			productName = OneSignalInAppMessages;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

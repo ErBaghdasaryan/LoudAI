@@ -27,26 +27,11 @@ class CreateViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
+        sendRequest()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        guard let navigationController = self.navigationController else { return }
         super.viewWillAppear(animated)
-
-        guard let model = self.viewModel?.model else { return }
-
-        let currentAvailableUsagesCount = FreeUsageManager.shared.getFreeUsageCount()
-
-        if currentAvailableUsagesCount == 0 {
-            if Apphud.hasActiveSubscription() {
-                self.viewModel?.createAdvancedRequest(model: model)
-            } else {
-                CreateRouter.showPaymentViewController(in: navigationController)
-            }
-        } else {
-            self.viewModel?.createAdvancedRequest(model: model)
-        }
-
         self.setupNavigationItems()
     }
 
@@ -161,7 +146,13 @@ class CreateViewController: BaseViewController {
             view.trailing.equalToSuperview().inset(43)
             view.height.equalTo(40)
         }
+    }
 
+    private func sendRequest() {
+        guard let navigationController = self.navigationController else { return }
+        guard let model = self.viewModel?.model else { return }
+
+        self.viewModel?.createAdvancedRequest(model: model)
     }
 
 }

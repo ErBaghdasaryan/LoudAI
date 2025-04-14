@@ -262,8 +262,17 @@ extension GeneratorViewController {
                                       keyRoot: keyRoot,
                                       keyQuality: keyQuality)
 
-        GeneratorRouter.showCreateViewController(in: navigationController,
-                                                 navigationModel: model)
+        if FreeUsageManager.shared.hasFreeUsages() {
+            GeneratorRouter.showCreateViewController(in: navigationController,
+                                                     navigationModel: model)
+        } else {
+            if Apphud.hasActiveSubscription() {
+                GeneratorRouter.showCreateViewController(in: navigationController,
+                                                         navigationModel: model)
+            } else {
+                CreateRouter.showPaymentViewController(in: navigationController)
+            }
+        }
     }
 
     @objc func byPromptTapped() {
@@ -280,9 +289,11 @@ extension GeneratorViewController {
 
         let bundle = Bundle.main.bundleIdentifier ?? ""
 
-        let currentAvailableUsagesCount = FreeUsageManager.shared.getFreeUsageCount()
-
-        if currentAvailableUsagesCount == 0 {
+        if FreeUsageManager.shared.hasFreeUsages() {
+            self.viewModel?.createByPromptRequest(userId: userID,
+                                                  bundle: bundle,
+                                                  prompt: prompt)
+        } else {
             if Apphud.hasActiveSubscription() {
                 self.viewModel?.createByPromptRequest(userId: userID,
                                                       bundle: bundle,
@@ -290,10 +301,6 @@ extension GeneratorViewController {
             } else {
                 GeneratorRouter.showPaymentViewController(in: navigationController)
             }
-        } else {
-            self.viewModel?.createByPromptRequest(userId: userID,
-                                                  bundle: bundle,
-                                                  prompt: prompt)
         }
     }
 
