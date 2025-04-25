@@ -38,6 +38,8 @@ class GeneratorViewController: BaseViewController {
     private var currentKeyRoot: String?
     private var currentKeyQuality: String?
 
+    private let randomButton = UIButton(type: .system)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
@@ -103,6 +105,8 @@ class GeneratorViewController: BaseViewController {
         collectionView.register(KeyCell.self)
         collectionView.register(AddCell.self)
 
+        self.randomButton.setImage(UIImage(named: "randomisePrompt"), for: .normal)
+
         self.segmentControl.selectedSegmentIndex = 0
 
         self.view.addSubview(segmentControl)
@@ -116,6 +120,8 @@ class GeneratorViewController: BaseViewController {
         super.setupViewModel()
 
         self.viewModel?.loadGenres()
+
+        self.viewModel?.loadRandomPromptTexts()
 
         self.viewModel?.timeOutSubject.sink { success in
             DispatchQueue.main.async {
@@ -188,6 +194,34 @@ extension GeneratorViewController {
         segmentControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         self.add.addTarget(self, action: #selector(byPromptTapped), for: .touchUpInside)
         self.generate.addTarget(self, action: #selector(generateAdvancedMusic), for: .touchUpInside)
+        self.randomButton.addTarget(self, action: #selector(randomPromptRequest), for: .touchUpInside)
+    }
+
+    @objc func randomPromptRequest() {
+        guard let navigationController = self.navigationController else { return }
+        guard let texts = self.viewModel?.randomTexts else { return }
+
+        let prompt = texts.randomElement() ?? ""
+
+        guard let userID = self.viewModel?.userID else {
+            return
+        }
+
+        let bundle = Bundle.main.bundleIdentifier ?? ""
+
+        if FreeUsageManager.shared.hasFreeUsages() {
+            self.viewModel?.createByPromptRequest(userId: userID,
+                                                  bundle: bundle,
+                                                  prompt: prompt)
+        } else {
+            if Apphud.hasActiveSubscription() {
+                self.viewModel?.createByPromptRequest(userId: userID,
+                                                      bundle: bundle,
+                                                      prompt: prompt)
+            } else {
+                GeneratorRouter.showPaymentViewController(in: navigationController)
+            }
+        }
     }
 
     @objc func generateAdvancedMusic() {
@@ -351,6 +385,7 @@ extension GeneratorViewController {
             self.collectionView.removeFromSuperview()
             self.generate.removeFromSuperview()
             self.view.addSubview(promtView)
+            self.view.addSubview(randomButton)
             self.view.addSubview(add)
 
             promtView.snp.makeConstraints { view in
@@ -358,6 +393,13 @@ extension GeneratorViewController {
                 view.leading.equalToSuperview().offset(16)
                 view.trailing.equalToSuperview().inset(16)
                 view.bottom.equalToSuperview().inset(490)
+            }
+
+            randomButton.snp.makeConstraints { view in
+                view.bottom.equalTo(promtView.snp.bottom).inset(12)
+                view.leading.equalTo(promtView.snp.leading).offset(12)
+                view.height.equalTo(32)
+                view.width.equalTo(32)
             }
 
             add.snp.makeConstraints { view in
@@ -372,6 +414,7 @@ extension GeneratorViewController {
             if !isFirstTime {
                 self.promtView.removeFromSuperview()
                 self.add.removeFromSuperview()
+                self.randomButton.removeFromSuperview()
             }
             self.view.addSubview(collectionView)
             self.view.addSubview(generate)

@@ -12,6 +12,7 @@ import SQLite
 public protocol IGeneratorService {
     func addSavedMusic(_ model: SavedMusicModel) throws -> SavedMusicModel
     func getGenreItems() -> [GenreModel]
+    func getRandomPromptTexts() -> [String]
 }
 
 public class GeneratorService: IGeneratorService {
@@ -103,6 +104,26 @@ public class GeneratorService: IGeneratorService {
             GenreModel(image: UIImage(named: "Zen")!,
                        title: "Zen",
                        subGenres: []),
+        ]
+    }
+
+    public func getRandomPromptTexts() -> [String] {
+        [
+                        "Powerful alternative rock track with electric guitars, live drums, and a raw vocal hook, full of energy and rebellion.",
+                        "Grunge-style track with heavy distorted guitars, slow tempo, and melancholic atmosphere.",
+                        "Classic rock anthem with strong riffs, upbeat rhythm, and stadium vibes.",
+                        "Ambient electronic track with soft synth pads, minimal beats, and a meditative atmosphere.",
+                        "High-energy techno with pounding bass, fast BPM, and dark club vibes.",
+                        "Chillstep with smooth wobbles, dreamy textures, and a relaxing vibe.",
+                        "Modern trap beat with booming 808s, hi-hats, and a dark melodic loop.",
+                        "Old school hip-hop beat with jazzy samples, vinyl crackle, and boom bap drums.",
+                        "Lo-fi hip-hop instrumental with warm keys, vinyl texture, and laid-back groove.",
+                        "Romantic piano and string quartet piece with emotional dynamics and cinematic flow.",
+                        "Solo cello composition with deep resonance and expressive phrasing.",
+                        "Modern neoclassical track with ambient textures and minimalist piano motifs.",
+                        "Catchy pop song with upbeat rhythm, layered synths, and summer party energy.",
+                        "Indie pop ballad with dreamy guitar, soft vocals, and emotional lyrics.",
+                        "Dance-pop track with pulsing beats, glossy production, and a vibrant hook.",
         ]
     }
 }

@@ -24,6 +24,9 @@ public protocol IGeneratorViewModel {
     func startPollingForGeneratedTrack(by musicID: UUID)
 
     func addMusic(_ model: SavedMusicModel)
+    func loadRandomPromptTexts()
+
+    var randomTexts: [String] { get set }
 }
 
 public class GeneratorViewModel: IGeneratorViewModel {
@@ -42,6 +45,8 @@ public class GeneratorViewModel: IGeneratorViewModel {
     private var isPolling = false
 
     public var genreItems: [GenreModel] = []
+
+    public var randomTexts: [String] = []
 
     public var userID: String {
         get {
@@ -129,5 +134,9 @@ public class GeneratorViewModel: IGeneratorViewModel {
         } catch {
             print(error)
         }
+    }
+
+    public func loadRandomPromptTexts() {
+        self.randomTexts = self.generatorService.getRandomPromptTexts()
     }
 }
