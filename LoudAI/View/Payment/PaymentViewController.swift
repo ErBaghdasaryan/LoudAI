@@ -354,6 +354,11 @@ extension PaymentViewController {
             } else if let paywall = paywalls.first(where: { $0.identifier == self.paywallID }) {
                 Apphud.paywallShown(paywall)
                 self.productsAppHud = paywall.products
+
+                self.yearlyButton.isSelectedState = false
+                self.weeklyButton.isSelectedState = true
+                self.currentProduct = self.productsAppHud.first
+
                 print("Продукты успешно загружены: \(self.productsAppHud)")
             } else {
                 print("Paywall с идентификатором \(self.paywallID) не найден.")
