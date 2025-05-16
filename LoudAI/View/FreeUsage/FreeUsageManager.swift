@@ -50,8 +50,10 @@ public final class FreeUsageManager {
     }
     
     private func getCachedCount() -> Int? {
-        let value = UserDefaults.standard.integer(forKey: key.rawValue)
-        return value > 0 ? value : nil
+        if UserDefaults.standard.object(forKey: key.rawValue) == nil {
+            return nil
+        }
+        return UserDefaults.standard.integer(forKey: key.rawValue)
     }
 }
 
